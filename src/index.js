@@ -1,8 +1,6 @@
 import './styles/style.css';
+import { createElement, createElementNS, createImg } from './scripts/createElements.js';
 function component() {
-    const element = document.createElement('div');
-    element.innerHTML = 'Hello webpack';
-    return element;
+    createElement('div', document.body, { class: 'container' }, 'Hello webpack');
 }
-
-document.body.appendChild(component());
+component()
