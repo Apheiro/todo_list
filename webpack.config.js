@@ -6,7 +6,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'Restaurant Page',
+            title: 'Todo List',
         }),
     ],
     devtool: 'inline-source-map',
