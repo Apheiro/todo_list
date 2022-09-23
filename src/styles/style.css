@@ -1,28 +1,37 @@
 :root {
-    --background-color: #202329;
-    --module-color: #262C33;
-    --module-color-secondary: #2B3138;
-    --module-color-secondary-2: #323A43;
-    --selected-option: #343068;
-    --details-color: #776EFF;
-    --text-color: #C4BDF0;
+    --background-color: #1f2228;
+    --module-color: #262c33;
+    --module-color-secondary: #2b3138;
+    --module-color-secondary-2: #323a43;
+    --selected-option: #553629;
+    --details-color: 255, 155, 115;
+    --text-color: #f0dabd;
     /* --background-color: #D4D4D4;
     --module-color: #F0F0F0;
     --module-color-secondary: #ffffff;
     --module-color-secondary-2: #ffffff;
     --selected-option: #CDCAFF;
-    --details-color: #776EFF;
+    --details-color: 119, 110, 255;
     --text-color: #717171; */
     --shadow-element: drop-shadow(4px 4px 5px rgba(0, 0, 0, 0.1))
 }
 
 .dark-mode {
+    /* --background-color: #202329;
+    --module-color: #262C33;
+    --module-color-secondary: #2B3138;
+    --module-color-secondary-2: #323A43;
+    --selected-option: #343068;
+    --details-color: 119, 110, 255;
+    --text-color: #C4BDF0;
     --background-color: #202329;
     --module-color: #262C33;
     --module-color-secondary: #2B3138;
-    --selected-option: #343068;
-    --details-color: #776EFF;
-    --text-color: #C4BDF0;
+    --module-color-secondary-2: #323A43;
+    --selected-option: #553629;
+    --details-color: 255, 154, 115;
+    --text-color: #F0DABD; */
+    opacity: 1;
 }
 
 /* width */
@@ -37,7 +46,7 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: var(--details-color);
+    background: rgb(var(--details-color));
     border-radius: 10px;
 }
 
@@ -49,6 +58,11 @@
     box-sizing: border-box;
     color: var(--text-color);
     border-radius: 10px;
+}
+
+input:focus,
+textarea:focus {
+    outline: rgb(var(--details-color)) solid 0.5px;
 }
 
 .h {
@@ -84,7 +98,7 @@ body {
 
 .addTaskBtn {
     position: fixed;
-    background-color: var(--details-color);
+    background-color: rgb(var(--details-color));
     color: var(--module-color);
     filter: var(--shadow-element);
     border: none;
@@ -99,12 +113,16 @@ body {
     flex: 1;
 }
 
+.TasksCompletedOfList {
+    color: rgb(var(--details-color));
+}
+
 .listsContentPreview {
     flex: 2.75;
 }
 
 .titleOptions {
-    background-color: var(--details-color);
+    background-color: rgb(var(--details-color));
     color: var(--module-color);
     padding: 10px;
     font-size: 25px;
@@ -146,7 +164,7 @@ body {
 
 .menusBtn {
     background-color: transparent;
-    color: var(--details-color);
+    color: rgb(var(--details-color));
     cursor: pointer;
     border: none;
     display: flex;
@@ -157,7 +175,7 @@ body {
 
 .icons {
     width: 40px;
-    color: var(--details-color);
+    color: rgb(var(--details-color));
 }
 
 .addListBtnContainer {
@@ -171,7 +189,7 @@ body {
 
 .addListBtn {
     position: fixed;
-    background-color: var(--details-color);
+    background-color: rgb(var(--details-color));
     color: var(--module-color);
     border: none;
     font-size: 30px;
@@ -203,7 +221,7 @@ body {
 .titleOfList {
     font-size: 20px;
     font-weight: 100;
-    color: var(--details-color);
+    color: rgb(var(--details-color));
 }
 
 .tasksOfList {
@@ -215,13 +233,18 @@ body {
 .tasksCompletedOfList {
     font-size: 13px;
     font-weight: 600;
-    color: var(--details-color);
+    color: rgb(var(--details-color));
 }
 
-.backgroundOfForms {
+.background {
     background-color: rgba(0, 0, 0, 0.37);
     backdrop-filter: blur(5px);
     position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     inset: 0;
     border-radius: 0;
     z-index: 1;
@@ -229,15 +252,12 @@ body {
 
 .addListForm {
     background: var(--module-color-secondary);
-    position: absolute;
-    inset: 0;
-    margin: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    max-width: 300px;
-    max-height: 300px;
+    min-width: 300px;
+    min-height: 300px;
     padding: 20px;
     z-index: 1;
 }
@@ -248,12 +268,21 @@ body {
     color: var(--text-color);
 }
 
-.addListInput {
+.input {
     border: none;
     background-color: var(--module-color);
-    height: 40px;
+    min-height: 50px;
     width: 100%;
     padding: 0 10px;
+}
+
+.inputTextArea {
+    border: none;
+    resize: none;
+    background-color: var(--module-color);
+    height: 200px;
+    width: 100%;
+    padding: 10px;
 }
 
 .addListOptions {
@@ -263,61 +292,36 @@ body {
     gap: 40px;
 }
 
-.addListSubmit {
-    background-color: var(--details-color);
-    color: var(--module-color);
-    border: none;
-    font-size: 15px;
-    font-weight: 600;
-    height: 40px;
-    width: 100%;
-    cursor: pointer;
-}
-
-.addListCancel {
-    background-color: var(--module-color);
-    color: var(--details-color);
-    border: none;
-    font-size: 15px;
-    font-weight: 600;
-    height: 40px;
-    width: 100%;
-    cursor: pointer;
-}
-
 .addTaskForm {
     background: var(--module-color-secondary);
-    position: absolute;
-    inset: 0;
-    margin: auto;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
-    max-width: 500px;
-    max-height: 350px;
-    padding: 20px;
+    min-width: 500px;
+    min-height: 500px;
+    padding: 25px;
     z-index: 1;
 }
 
-.addTaskSubmit {
-    background-color: var(--details-color);
+.submitFormBtn {
+    background-color: rgb(var(--details-color));
     color: var(--module-color);
     border: none;
     font-size: 15px;
     font-weight: 600;
-    height: 40px;
+    height: 50px;
     width: 100%;
     cursor: pointer;
 }
 
-.addTaskCancel {
+.cancelFormBtn {
     background-color: var(--module-color);
-    color: var(--details-color);
+    color: rgb(var(--details-color));
     border: none;
     font-size: 15px;
     font-weight: 600;
-    height: 40px;
+    height: 50px;
     width: 100%;
     cursor: pointer;
 }
@@ -326,14 +330,6 @@ body {
     font-size: 25px;
     font-weight: 600;
     color: var(--text-color);
-}
-
-.addTaskInput {
-    border: none;
-    background-color: var(--module-color);
-    height: 40px;
-    width: 100%;
-    padding: 0 10px;
 }
 
 .addTaskOptions {
@@ -365,7 +361,7 @@ body {
 }
 
 .editButton {
-    background-color: var(--details-color);
+    background-color: rgb(var(--details-color));
     color: var(--module-color);
     border: none;
     font-size: 15px;
@@ -377,8 +373,8 @@ body {
 }
 
 .deleteButton {
-    background-color: var(--selected-option);
-    color: var(--details-color);
+    background-color: rgba(var(--details-color), 0.2);
+    color: rgb(var(--details-color));
     border: none;
     font-size: 15px;
     font-weight: 600;
@@ -390,15 +386,12 @@ body {
 
 .editListNameForm {
     background: var(--module-color-secondary);
-    position: absolute;
-    inset: 0;
-    margin: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    max-width: 300px;
-    max-height: 300px;
+    min-width: 325px;
+    min-height: 300px;
     padding: 20px;
     z-index: 1;
 }
@@ -409,41 +402,11 @@ body {
     color: var(--text-color);
 }
 
-.editListInput {
-    border: none;
-    background-color: var(--module-color);
-    height: 40px;
-    width: 100%;
-    padding: 0 10px;
-}
-
 .editListOptions {
     width: 100%;
     display: flex;
     justify-content: space-between;
     gap: 40px;
-}
-
-.editListSubmit {
-    background-color: var(--details-color);
-    color: var(--module-color);
-    border: none;
-    font-size: 15px;
-    font-weight: 600;
-    height: 40px;
-    width: 100%;
-    cursor: pointer;
-}
-
-.editListCancel {
-    background-color: var(--module-color);
-    color: var(--details-color);
-    border: none;
-    font-size: 15px;
-    font-weight: 600;
-    height: 40px;
-    width: 100%;
-    cursor: pointer;
 }
 
 .taskPreviews {
@@ -479,7 +442,7 @@ body {
 }
 
 .createExampleBtn {
-    background-color: var(--details-color);
+    background-color: rgb(var(--details-color));
     color: var(--module-color);
     filter: var(--shadow-element);
     border: none;
@@ -493,4 +456,37 @@ body {
 .categoryStyle h2 {
     font-size: 25px;
     font-weight: 200;
+}
+
+.advertising {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    z-index: 3;
+}
+
+.advertisingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--module-color-secondary);
+    gap: 20px;
+    padding: 20px;
+}
+
+.advertisingContainer p {
+    font-size: 20px;
+}
+
+.AcceptBtn {
+    background-color: var(--module-color);
+    color: rgb(var(--details-color));
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    height: 40px;
+    width: 200px;
+    cursor: pointer;
 }

@@ -24,73 +24,28 @@ class userInterface {
         const addListBtnContainer = createElement('div', menuContent, { class: 'addListBtnContainer' });
         createElement('button', addListBtnContainer, { class: 'addListBtn', id: 'addListBtn' }, '+');
 
-        const backgroundOfForms = createElement('div', document.body, { class: 'backgroundOfForms h', id: 'backgroundOfForms' });
-
-        //add list form
-        const addListForm = createElement('form', backgroundOfForms, { class: 'addListForm h', id: 'addListForm' });
-        createElement('h2', addListForm, { class: 'addListTitle' }, 'Add a new list! 🎉');
-        createElement('input', addListForm, { class: 'addListInput', id: 'addListInput', type: 'text', placeholder: 'List name', required: true });
-        const addListOptions = createElement('div', addListForm, { class: 'addListOptions' });
-        createElement('button', addListOptions, { class: 'addListSubmit', id: 'addListSubmitBtn', type: 'Submit' }, 'Add');
-        createElement('button', addListOptions, { class: 'addListCancel', id: 'addListCancelBtn' }, 'Cancel');
-        //add list form
-
-        //add Task form
-        const addTaskForm = createElement('form', backgroundOfForms, { class: 'addTaskForm h', id: 'addTaskForm' });
-        createElement('h2', addTaskForm, { class: 'addTaskTitle' }, 'Add a new Task! 😺');
-        createElement('input', addTaskForm, { class: 'addTaskInput', id: 'addTaskInput', type: 'text', placeholder: 'Task', required: true });
-        const addTaskOptions = createElement('div', addTaskForm, { class: 'addTaskOptions' });
-        createElement('button', addTaskOptions, { class: 'addTaskSubmit', id: 'addTaskSubmitBtn', type: 'Submit' }, 'Add');
-        createElement('button', addTaskOptions, { class: 'addTaskCancel', id: 'addTaskCancelBtn' }, 'Cancel');
-        //add Task form
-
-        //edit list form
-        const editListNameForm = createElement('form', backgroundOfForms, { class: 'editListNameForm h', id: 'editListNameForm' });
-        createElement('h2', editListNameForm, { class: 'editListTitle' }, 'Edit your name list! 👀');
-        createElement('input', editListNameForm, { class: 'addTaskInput', id: 'editListInput', type: 'text', placeholder: 'List name', required: true });
-        const editListOptions = createElement('div', editListNameForm, { class: 'editListOptions' });
-        createElement('button', editListOptions, { class: 'editListSubmit', id: 'editListSubmitBtn', type: 'Edit' }, 'Add');
-        createElement('button', editListOptions, { class: 'editListCancel', id: 'editListCancelBtn' }, 'Cancel');
-        //edit list form
-
         const listsContentPreview = createElement('div', document.body, { class: 'listsContentPreview', id: 'listsContentPreview' });
-        createElement('h2', listsContentPreview, { class: 'titleOptions' }, 'My Lists');
+        createElement('h2', listsContentPreview, { class: 'titleOptions', id: 'titleOfSelection' }, 'View');
 
-
-
-        const list = createElement('div', menuContent, { class: 'list', 'data-indexList': '1' });
-        const firstLine = createElement('div', list, { class: 'firstLine' });
-        const titleAndTasksContainer = createElement('div', firstLine, { class: 'titleAndTasksContainer' });
-        createElement('h2', titleAndTasksContainer, { class: 'titleOfList' }, 'All Tasks');
-        createElement('p', titleAndTasksContainer, { class: 'TasksOfList' }, 'Tasks');
-        createElement('p', firstLine, { class: 'TasksCompletedOfList' }, 'Completed');
         // createElement('div', listsContentPreview, { class: 'listsContentPreviewTasksContainerAllTask', 'data-indexListTasksContainer': '1' }, 'ALL TASKS');
 
         const taskPreview = createElement('div', listsContentPreview, { class: 'taskPreviews', id: 'taskPreviews' });
 
+        // const today = createElement('div', taskPreview, { class: 'today categoryStyle h', id: 'today' });
+        // createElement('h2', today, { class: 'todayTitle', id: 'todayTitle' }, 'Today');
+        // createElement('div', today, { class: 'todayTasks', id: 'todayTasks' });
 
-        const noLists = createElement('div', taskPreview, { class: 'noLists h', id: 'noLists' }, 'Create a new List!⚡');
-        createElement('button', noLists, { class: 'createExampleBtn', id: 'createExampleBtn' }, 'Example')
+        // const Tomorrow = createElement('div', taskPreview, { class: 'tomorrow categoryStyle h', id: 'tomorrow' });
+        // createElement('h2', Tomorrow, { class: 'tomorrowTitle', id: 'tomorrowTitle' }, 'Tomorrow');
+        // createElement('div', Tomorrow, { class: 'tomorrowTasks', id: 'tomorrowTasks' });
 
-        const noTask = createElement('span', taskPreview, { class: 'noTask h', id: 'noTask' }, 'Create a new task!✨');
+        // const Upcoming = createElement('div', taskPreview, { class: 'upcoming categoryStyle h', id: 'upcoming' });
+        // createElement('h2', Upcoming, { class: 'upcomingTitle', id: 'upcomingTitle' }, 'Upcoming');
+        // createElement('div', Upcoming, { class: 'upcomingTasks', id: 'upcomingTasks' });
 
-        const today = createElement('div', taskPreview, { class: 'today categoryStyle h', id: 'today' });
-        createElement('h2', today, { class: 'todayTitle', id: 'todayTitle' }, 'Today')
-        createElement('div', today, { class: 'todayTasks', id: 'todayTasks' })
-
-        const Tomorrow = createElement('div', taskPreview, { class: 'tomorrow categoryStyle h', id: 'tomorrow' });
-        createElement('h2', Tomorrow, { class: 'tomorrowTitle', id: 'tomorrowTitle' }, 'Tomorrow')
-        createElement('div', Tomorrow, { class: 'tomorrowTasks', id: 'tomorrowTasks' })
-
-        const Upcoming = createElement('div', taskPreview, { class: 'upcoming categoryStyle h', id: 'upcoming' });
-        createElement('h2', Upcoming, { class: 'upcomingTitle', id: 'upcomingTitle' }, 'Upcoming')
-        createElement('div', Upcoming, { class: 'upcomingTasks', id: 'upcomingTasks' })
-
-        const Someday = createElement('div', taskPreview, { class: 'someday categoryStyle h', id: 'Someday' });
-        createElement('h2', Someday, { class: 'somedayTitle', id: 'somedayTitle' }, 'Someday')
-        createElement('div', Someday, { class: 'somedayTasks', id: 'somedayTasks' })
-
-
+        // const Someday = createElement('div', taskPreview, { class: 'someday categoryStyle h', id: 'Someday' });
+        // createElement('h2', Someday, { class: 'somedayTitle', id: 'somedayTitle' }, 'Someday');
+        // createElement('div', Someday, { class: 'somedayTasks', id: 'somedayTasks' });
 
         // add task button
         const addTaskBtnContainer = createElement('div', taskPreview, { class: 'addTaskBtnContainer' });
@@ -108,16 +63,74 @@ class userInterface {
         createElement('p', titleAndTasksContainer, { class: 'TasksOfList' }, `${tasksNumber} Tasks`);
         createElement('p', firstLine, { class: 'TasksCompletedOfList' }, `${tasksCompleted} Completed`);
 
-        // const listsContentPreviewTasksContainerAllTask = createElement('div', listsContentPreview, { class: 'listsContentPreviewTasksContainerAllTask', 'data-indexListTasksContainer': `${initialIndex}` }, `ALL TASKS ${initialIndex}`);
-        // const addTaskBtnContainer = createElement('div', listsContentPreviewTasksContainerAllTask, { class: 'addTaskBtnContainer' });
-        // const addTaskBtn = createElement('button', addTaskBtnContainer, { class: 'addTaskBtn', id: 'addTaskBtn' }, 'Add Task +');
+        if (title != 'All Tasks') {
+            const buttonSettings = createElement('div', list, { class: 'buttonSettings' });
+            const editButton = createElement('button', buttonSettings, { class: 'editButton', id: 'editButton' }, 'edit');
+            const deleteButton = createElement('button', buttonSettings, { class: 'deleteButton', id: 'deleteButton' }, 'delete');
+            const elements = [list, buttonSettings, editButton, deleteButton, initialIndex]
+            return elements
+        }
 
-        const buttonSettings = createElement('div', list, { class: 'buttonSettings' });
-        const editButton = createElement('button', buttonSettings, { class: 'editButton', id: 'editButton' }, 'edit');
-        const deleteButton = createElement('button', buttonSettings, { class: 'deleteButton', id: 'deleteButton' }, 'delete');
-
-        const elements = [list, buttonSettings, editButton, deleteButton, addTaskBtn, initialIndex]
+        const elements = [list, null, null, null, initialIndex]
         return elements
+    }
+
+    static showAdvertising(situation) {
+        if (situation === 'All Tasks') {
+            const advertising = createElement('div', document.querySelector('body'), { class: 'advertising' });
+            const background = createElement('div', advertising, { class: 'background' });
+            const advertisingContainer = createElement('div', background, { class: 'advertisingContainer' });
+            createElement('p', advertisingContainer, null, 'You can\'t create a List named \"All Tasks\" try other name 😓');
+            const acceptBtn = createElement('button', advertisingContainer, { class: 'AcceptBtn' }, 'Accept');
+            const elements = [acceptBtn, advertising]
+            return elements
+        }
+    }
+
+    static createForm(form) {
+        const backgroundOfForms = createElement('div', document.body, { class: 'background', id: 'backgroundOfForms' });
+        if (form === 'addList') {
+            const addListForm = createElement('form', backgroundOfForms, { class: 'addListForm', id: 'addListForm' });
+            createElement('h2', addListForm, { class: 'addListTitle' }, 'Add a new list! 🎉');
+            createElement('input', addListForm, { class: 'input', id: 'addListInput', type: 'text', placeholder: 'List name', required: '' });
+            const addListOptions = createElement('div', addListForm, { class: 'addListOptions' });
+            const addListSubmitBtn = createElement('button', addListOptions, { class: 'submitFormBtn', id: 'addListSubmitBtn', type: 'Submit' }, 'Add');
+            const addListCancelBtn = createElement('button', addListOptions, { class: 'cancelFormBtn', id: 'addListCancelBtn' }, 'Cancel');
+            const elements = [addListSubmitBtn, addListCancelBtn, backgroundOfForms]
+            return elements
+        } else if (form === 'addTask') {
+            const addTaskForm = createElement('form', backgroundOfForms, { class: 'addTaskForm', id: 'addTaskForm' });
+            createElement('h2', addTaskForm, { class: 'addTaskTitle' }, 'Add a new Task! 😺');
+            createElement('input', addTaskForm, { class: 'input', id: 'addTaskInput', type: 'text', placeholder: 'Task', required: '' });
+            createElement('textarea', addTaskForm, { class: 'inputTextArea', id: 'descriptionTaskInput', placeholder: 'Description' });
+            createElement('input', addTaskForm, { class: 'input', id: 'addTaskDateInput', type: 'date', required: '' });
+            const addTaskOptions = createElement('div', addTaskForm, { class: 'addTaskOptions' });
+            const addTaskSubmitBtn = createElement('button', addTaskOptions, { class: 'submitFormBtn ', id: 'addTaskSubmitBtn', type: 'Submit' }, 'Add');
+            const addTaskCancelBtn = createElement('button', addTaskOptions, { class: 'cancelFormBtn', id: 'addTaskCancelBtn' }, 'Cancel');
+            const elements = [addTaskSubmitBtn, addTaskCancelBtn, backgroundOfForms];
+            return elements;
+        } else if (form === 'editList') {
+            const editListNameForm = createElement('form', backgroundOfForms, { class: 'editListNameForm', id: 'editListNameForm' });
+            createElement('h2', editListNameForm, { class: 'editListTitle' }, 'Edit your name list! 👀');
+            createElement('input', editListNameForm, { class: 'input', id: 'editListInput', type: 'text', placeholder: 'List name', required: '' });
+            const editListOptions = createElement('div', editListNameForm, { class: 'editListOptions' });
+            const editListSubmitBtn = createElement('button', editListOptions, { class: 'submitFormBtn', id: 'editListSubmitBtn', type: 'Edit' }, 'Accept');
+            const editListCancelBtn = createElement('button', editListOptions, { class: 'cancelFormBtn', id: 'editListCancelBtn' }, 'Cancel');
+            const elements = [editListSubmitBtn, editListCancelBtn, backgroundOfForms]
+            return elements
+        }
+
+    }
+
+    static createListSuggestion() {
+        const taskPreview = document.querySelector('#taskPreviews')
+        const noLists = createElement('div', taskPreview, { class: 'noLists', id: 'noLists' }, 'Create a new List!⚡');
+        createElement('button', noLists, { class: 'createExampleBtn', id: 'createExampleBtn' }, 'Example');
+        return noLists
+    }
+
+    static createTaskSuggestion() {
+        const noTask = createElement('span', taskPreview, { class: 'noTask', id: 'noTask' }, 'Create a new task!✨');
     }
 }
 
