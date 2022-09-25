@@ -90,8 +90,8 @@ body {
 
 .addTaskBtnContainer {
     position: absolute;
-    bottom: 20px;
-    right: 20px;
+    bottom: 40px;
+    right: 40px;
     width: 200px;
     height: 50px;
 }
@@ -347,17 +347,16 @@ body {
 }
 
 .buttonSettings {
-    display: flex;
     justify-content: space-around;
     align-items: center;
-    margin-top: 0px;
-    height: 0px;
-    overflow: hidden;
-}
-
-.buttonSettingsShow {
     margin-top: 25px;
     height: 50px;
+    overflow: hidden;
+    display: none;
+}
+
+.show {
+    display: flex !important;
 }
 
 .editButton {
@@ -413,6 +412,9 @@ body {
     height: 100%;
     display: flex;
     flex-direction: column;
+    gap: 25px;
+    padding: 20px 20px 100px 20px;
+    overflow: auto;
 }
 
 .noLists {
@@ -480,13 +482,163 @@ body {
     font-size: 20px;
 }
 
-.AcceptBtn {
+.advertisingContainer button {
     background-color: var(--module-color);
     color: rgb(var(--details-color));
     border: none;
     font-size: 15px;
     font-weight: 600;
-    height: 40px;
-    width: 200px;
+    width: 150px;
+    height: 50px;
     cursor: pointer;
+}
+
+.tasks {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-inline: 50px;
+}
+
+.tasks h3 {
+    font-size: 20px;
+    font-weight: 200;
+    text-align: start;
+}
+
+.inputCheckbox {
+    display: none;
+}
+
+.checkbox {
+    width: 23px;
+    height: 23px;
+    border: 2px solid var(--text-color);
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.checkbox::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    background: var(--text-color);
+    transform: scale(0);
+    transition: transform 0.1s;
+}
+
+.inputCheckbox:checked+.checkbox::after {
+    transform: scale(1);
+}
+
+.taskBtns {
+    display: flex;
+    border: none;
+    cursor: pointer;
+    background: none;
+}
+
+.taskBtnsGroup {
+    margin-left: auto;
+    gap: 5px;
+    display: none;
+}
+
+.btnOfTask {
+    width: 25px;
+    height: 25px;
+}
+
+.btnOfTask path {
+    stroke: var(--text-color);
+    stroke-width: 2px;
+}
+
+.check {
+    text-decoration-line: line-through;
+    opacity: 0.5;
+}
+
+.infoTask {
+    background-color: var(--module-color);
+    max-width: 625px;
+    width: 100%;
+    max-height: 440px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.headOfInfo {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.titleOfWindowDescription {
+    font-weight: 100;
+    color: rgb(var(--details-color));
+}
+
+.moreInfoBtns {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.moreInfoBtns svg {
+    width: 30px;
+    stroke: rgb(var(--details-color));
+}
+
+.titleOfInfoTask {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.dateTitleDescription {
+    font-size: 14px;
+    font-weight: 100;
+}
+
+.taskTitleDescription {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.descriptionMoreInfo {
+    overflow: auto;
+}
+
+.dateTitleDescriptionInput {
+    /* background: var(--module-color-secondary); */
+    background: transparent;
+    border: none;
+    font-size: 14px;
+}
+
+.taskTitleDescriptionInput {
+    /* background: var(--module-color-secondary); */
+    background: transparent;
+    border: none;
+    resize: none;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.descriptionMoreInfoInput {
+    /* background: var(--module-color-secondary); */
+    background: transparent;
+    border: none;
+    resize: none;
+    overflow: none;
 }
