@@ -1,4 +1,5 @@
 import { userInterface } from './domCreation.js'
+import { format, parseISO, isAfter, add, isToday, isBefore, addDays } from 'date-fns'
 
 class appLogic {
 
@@ -8,11 +9,17 @@ class appLogic {
         const addListBtn = document.querySelector('#addListBtn');
         const addTaskBtn = document.querySelector('#addTaskBtn');
         const test = document.querySelector('.calendarMenuBtn')
-        test.addEventListener('click', () => { console.log(listsCreator.lists) })
+
+        test.addEventListener('click', () => {
+            console.log(listsCreator.lists)
+            const nodeList = document.querySelector('#taskPreviews').querySelectorAll(`.tasks`);
+            console.log(nodeList)
+
+        })
         addListBtn.addEventListener('click', () => { this.showForm('addList') });
         addTaskBtn.addEventListener('click', () => { this.showForm('addTask') });
         listsCreator.createList('All Tasks')
-
+        console.log(new Date())
     }
 
     static showForm(form) {
@@ -90,22 +97,12 @@ class appLogic {
         element[0].addEventListener('click', () => { element[1].remove() });
     }
 
-    static setNewIndex(container, dataAtribute, array) {
-        const nodeList = container.childNodes;
-        console.log(nodeList)
-        nodeList.forEach(node => {
-            array.forEach(element => {
-                if (element.id == node.getAttribute(dataAtribute)) {
-                    element.id = this.matchingIndex(container, node)
-                    node.setAttribute(`${dataAtribute}`, element.id);
-                }
-            })
+    static setNewIndex(container, dataAtribute, array, className) {
+        const nodeList = container.querySelectorAll(`.${className}`);
+        nodeList.forEach((node, index) => {
+            node.setAttribute(dataAtribute, index + 1);
+            array[index].id = index + 1;
         });
-    }
-
-    static matchingIndex(parent, child) {
-        const index = Array.prototype.indexOf.call(parent.children, child);
-        return index;
     }
 }
 
@@ -123,8 +120,7 @@ class tasksCreator {
 
     static createTask(title, description, date) {
         const newTask = new tasksCreator(title, description, date)
-        this.createTaskDom(title, newTask);
-
+        this.createTaskDom(newTask.title, newTask, date);
 
         listsCreator.lists.forEach(list => {
             if (list.id === listsCreator.listSelected) {
@@ -136,22 +132,48 @@ class tasksCreator {
 
     }
 
-    static createTaskDom(title, task) {
+    static createTaskDom(title, task, date) {
         // element 0 = tasks
-        // element 1 = initialIndex
-        // element 2 = deleteBtn
-        // element 3 = moreInfoBtn
-        // element 4 = inputCheckbox
-        const domElements = userInterface.createTasksDom(title, task.checked);
-        task.domReference = domElements[0];
-        task.id = domElements[1];
+        // element 1 = deleteBtn
+        // element 2 = moreInfoBtn
+        // element 3 = inputCheckbox
+        if (isToday(new Date(parseISO(date)))) {
+            const taskPreviews = document.querySelector('#taskPreviews')
+            const categoryDom = document.querySelector('#Today')
+            if (!taskPreviews.contains(categoryDom)) { userInterface.createTaskCategory('Today', 2) }
+            start('Today')
+        } else if (isBefore(new Date(parseISO(date)), new Date())) {
+            const taskPreviews = document.querySelector('#taskPreviews')
+            const categoryDom = document.querySelector('#Expired')
+            if (!taskPreviews.contains(categoryDom)) { userInterface.createTaskCategory('Expired', 1) }
+            start('Expired')
+        } else if (isAfter(new Date(parseISO(date)), new Date()) && isBefore(new Date(parseISO(date)), addDays(new Date(), 1))) {
+            const taskPreviews = document.querySelector('#taskPreviews')
+            const categoryDom = document.querySelector('#Tomorrow')
+            if (!taskPreviews.contains(categoryDom)) { userInterface.createTaskCategory('Tomorrow', 3) }
+            start('Tomorrow')
+        } else if (isAfter(new Date(parseISO(date)), addDays(new Date(), 1))) {
+            const taskPreviews = document.querySelector('#taskPreviews')
+            const categoryDom = document.querySelector('#Upcoming')
+            if (!taskPreviews.contains(categoryDom)) { userInterface.createTaskCategory('Upcoming', 4) }
+            start('Upcoming')
+        }
 
-        domElements[0].addEventListener('click', (e) => { console.log(task) });
-        domElements[0].addEventListener('mouseover', () => { domElements[0].querySelector('.taskBtnsGroup').classList.add('show') });
-        domElements[0].addEventListener('mouseout', () => { domElements[0].querySelector('.taskBtnsGroup').classList.remove('show') });
-        domElements[2].addEventListener('click', () => { this.deleteTask(task) });
-        domElements[3].addEventListener('click', () => { this.showTaskInfo(task) });
-        domElements[4].addEventListener('change', () => { task.checked = domElements[4].checked; });
+        function start(category) {
+            const domElements = userInterface.createTasksDom(title, task.checked, category);
+            const taskIndex = (document.querySelectorAll('.tasks')).length
+            task.domReference = domElements[0];
+            task.domReference.setAttribute('data-indextask', taskIndex);
+            task.id = taskIndex;
+            domElements[0].addEventListener('mouseover', () => { domElements[0].querySelector('.taskBtnsGroup').classList.add('show') });
+            domElements[0].addEventListener('mouseout', () => { domElements[0].querySelector('.taskBtnsGroup').classList.remove('show') });
+            domElements[1].addEventListener('click', () => { tasksCreator.deleteTask(task) });
+            domElements[2].addEventListener('click', () => { tasksCreator.showTaskInfo(task) });
+            domElements[3].addEventListener('change', () => { task.checked = domElements[3].checked; });
+        }
+
+
+
     }
 
     static deleteTask(task) {
@@ -159,7 +181,7 @@ class tasksCreator {
         listsCreator.lists.forEach(list => {
             if (list.id === listsCreator.listSelected) {
                 list.tasks.forEach(taskOfarray => { if (taskOfarray.id === task.id) { list.tasks.splice(list.tasks.indexOf(taskOfarray), 1); } })
-                appLogic.setNewIndex(document.querySelector('#taskPreviews'), 'data-indextask', list.tasks)
+                appLogic.setNewIndex(document.querySelector('#taskPreviews'), 'data-indextask', list.tasks, 'tasks')
             }
         })
 
@@ -169,8 +191,7 @@ class tasksCreator {
         // element 0 = background
         // element 1 = closeInfoBtn
         // element 2 = editInfoBtn
-
-        const domElements = userInterface.taskInfoDom(task.title, task.description, task.date);
+        const domElements = userInterface.taskInfoDom(task.title, task.description, format(new Date(parseISO(task.date)), 'PPPP'));
         domElements[1].addEventListener('click', () => {
             console.log(domElements[0]);
             domElements[0].remove();
@@ -285,7 +306,7 @@ class listsCreator {
     static deleteList(list) {
         list.domReference.remove();
         this.lists.forEach(element => { if (element.id === list.id) { this.lists.splice(this.lists.indexOf(element), 1); } })
-        appLogic.setNewIndex(document.querySelector('#menuContent'), 'data-indexlist', listsCreator.lists)
+        appLogic.setNewIndex(document.querySelector('#menuContent'), 'data-indexlist', listsCreator.lists, 'list')
         if (list.id === this.listSelected) {
             const addTaskBtn = document.querySelector('#addTaskBtn');
             document.querySelectorAll('.tasks').forEach(task => { task.remove() })
@@ -343,7 +364,11 @@ class listsCreator {
                 this.refreshListSelected();
                 if (this.listSelected > 1) { addTaskBtn.classList.remove('h') } else { addTaskBtn.classList.add('h') };
                 this.changeTitleOfViewMenu()
-                tasksCreator.createTask('Lamas es un chupañoqui que no me quiere decir una oracion larga', 'Contexto: cuando yo le pregunte a lamas que me diga una oracion larga, se hizo el boludo y no me respondio a persar de que se lo pregunte como unas 2 o 3 veces ya no recuerdo porque tengo tdah y nahu tiene un sorete en el ano', '12/12/2022')
+                tasksCreator.createTask('dfgsdfgdfgs', 'Contexto', '2022-12-12');
+                tasksCreator.createTask('dfgsdfgdfgs', 'Contexto', '2022-12-12');
+                tasksCreator.createTask('dfgsdfgdfgs', 'Contexto', '2022-12-12');
+                tasksCreator.createTask('dfgsdfgdfgs', 'Contexto', '2022-12-12');
+
                 console.log(this.lists)
             })
         }

@@ -3,9 +3,16 @@
     --module-color: #262c33;
     --module-color-secondary: #2b3138;
     --module-color-secondary-2: #323a43;
+    --selected-option: #425529;
+    --details-color: 218, 255, 115;
+    --text-color: #daf0bd;
+    /* --background-color: #1f2228;
+    --module-color: #262c33;
+    --module-color-secondary: #2b3138;
+    --module-color-secondary-2: #323a43;
     --selected-option: #553629;
     --details-color: 255, 155, 115;
-    --text-color: #f0dabd;
+    --text-color: #f0dabd; */
     /* --background-color: #D4D4D4;
     --module-color: #F0F0F0;
     --module-color-secondary: #ffffff;
@@ -497,7 +504,6 @@ body {
     display: flex;
     align-items: center;
     gap: 15px;
-    padding-inline: 50px;
 }
 
 .tasks h3 {
@@ -641,4 +647,28 @@ body {
     border: none;
     resize: none;
     overflow: none;
+}
+
+.category {
+    display: flex;
+    gap: 25px;
+    flex-direction: column;
+    padding-inline: 25px;
+}
+
+.categoryHeader {
+    display: flex;
+    justify-content: space-between;
+}
+
+.categoryTitle {
+    font-size: 25px;
+    font-weight: 100;
+    color: rgb(var(--details-color));
+}
+
+.taskContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
 }

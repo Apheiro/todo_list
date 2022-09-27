@@ -133,7 +133,7 @@ class userInterface {
         const noTask = createElement('span', taskPreview, { class: 'noTask', id: 'noTask' }, 'Create a new task!✨');
     }
 
-    static createTasksDom(title, checked) {
+    static createTasksDom(title, checked, categoryName) {
         function inputCheckboxFunction() {
             if (checked === true) {
                 const inputCheckbox = createElement('input', checkboxCustom, { class: 'inputCheckbox', id: 'inputCheckbox', checked: '', type: 'checkbox' });
@@ -143,9 +143,8 @@ class userInterface {
                 return inputCheckbox
             }
         }
-        const taskPreviews = document.querySelector('#taskPreviews');
-        const initialIndex = taskPreviews.childElementCount;
-        const tasks = createElement('div', taskPreviews, { class: 'tasks', 'data-indextask': `${initialIndex}` });
+        const category = document.querySelector(`#${categoryName}`);
+        const tasks = createElement('div', category, { class: 'tasks' });
         const checkboxCustom = createElement('label', tasks, { class: 'checkboxCustom' });
         const inputCheckbox = inputCheckboxFunction()
         createElement('span', checkboxCustom, { class: 'checkbox' });
@@ -153,8 +152,17 @@ class userInterface {
         const btns = createElement('div', tasks, { class: 'taskBtnsGroup' });
         const deleteBtn = createElement('button', btns, { class: 'taskBtns', id: 'deleteTaskBtn' }, null, `<svg class="btnOfTask" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.75 7.75L12.25 12.25M12.25 7.75L7.75 12.25M19 10C19 11.1819 18.7672 12.3522 18.3149 13.4442C17.8626 14.5361 17.1997 15.5282 16.364 16.364C15.5282 17.1997 14.5361 17.8626 13.4442 18.3149C12.3522 18.7672 11.1819 19 10 19C8.8181 19 7.64778 18.7672 6.55585 18.3149C5.46392 17.8626 4.47177 17.1997 3.63604 16.364C2.80031 15.5282 2.13738 14.5361 1.68508 13.4442C1.23279 12.3522 1 11.1819 1 10C1 7.61305 1.94821 5.32387 3.63604 3.63604C5.32387 1.94821 7.61305 1 10 1C12.3869 1 14.6761 1.94821 16.364 3.63604C18.0518 5.32387 19 7.61305 19 10Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`);
         const moreInfoBtn = createElement('button', btns, { class: 'taskBtns', id: 'moreInfoTaskBtn' }, null, `<svg class="btnOfTask" width="25" height="25" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.625 10H6.25M10.375 10H10M14.125 10H13.75M6.625 10C6.625 10.0995 6.58549 10.1948 6.51517 10.2652C6.44484 10.3355 6.34946 10.375 6.25 10.375C6.15054 10.375 6.05516 10.3355 5.98484 10.2652C5.91451 10.1948 5.875 10.0995 5.875 10C5.875 9.90054 5.91451 9.80516 5.98484 9.73483C6.05516 9.66451 6.15054 9.625 6.25 9.625C6.34946 9.625 6.44484 9.66451 6.51517 9.73483C6.58549 9.80516 6.625 9.90054 6.625 10V10ZM10.375 10C10.375 10.0995 10.3355 10.1948 10.2652 10.2652C10.1948 10.3355 10.0995 10.375 10 10.375C9.90054 10.375 9.80516 10.3355 9.73483 10.2652C9.66451 10.1948 9.625 10.0995 9.625 10C9.625 9.90054 9.66451 9.80516 9.73483 9.73483C9.80516 9.66451 9.90054 9.625 10 9.625C10.0995 9.625 10.1948 9.66451 10.2652 9.73483C10.3355 9.80516 10.375 9.90054 10.375 10V10ZM14.125 10C14.125 10.0995 14.0855 10.1948 14.0152 10.2652C13.9448 10.3355 13.8495 10.375 13.75 10.375C13.6505 10.375 13.5552 10.3355 13.4848 10.2652C13.4145 10.1948 13.375 10.0995 13.375 10C13.375 9.90054 13.4145 9.80516 13.4848 9.73483C13.5552 9.66451 13.6505 9.625 13.75 9.625C13.8495 9.625 13.9448 9.66451 14.0152 9.73483C14.0855 9.80516 14.125 9.90054 14.125 10V10ZM19 10C19 11.1819 18.7672 12.3522 18.3149 13.4442C17.8626 14.5361 17.1997 15.5282 16.364 16.364C15.5282 17.1997 14.5361 17.8626 13.4442 18.3149C12.3522 18.7672 11.1819 19 10 19C8.8181 19 7.64778 18.7672 6.55585 18.3149C5.46392 17.8626 4.47177 17.1997 3.63604 16.364C2.80031 15.5282 2.13738 14.5361 1.68508 13.4442C1.23279 12.3522 1 11.1819 1 10C1 7.61305 1.94821 5.32387 3.63604 3.63604C5.32387 1.94821 7.61305 1 10 1C12.3869 1 14.6761 1.94821 16.364 3.63604C18.0518 5.32387 19 7.61305 19 10Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`);
-        const elements = [tasks, initialIndex, deleteBtn, moreInfoBtn, inputCheckbox];
+        const elements = [tasks, deleteBtn, moreInfoBtn, inputCheckbox];
         return elements;
+    }
+
+    static createTaskCategory(categoryName, order) {
+        const taskPreviews = document.querySelector('#taskPreviews');
+        const category = createElement('div', taskPreviews, { class: 'category', id: 'category', style: `order: ${order}` });
+        const categoryHeader = createElement('div', category, { class: 'categoryHeader' });
+        const categoryTitle = createElement('h2', categoryHeader, { class: 'categoryTitle' }, categoryName);
+        const openBtn = createElement('button', categoryHeader, { class: 'moreInfoBtns' }, null, `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>`);
+        const taskContainer = createElement('div', category, { class: 'taskContainer', id: categoryName });
     }
 
     static taskInfoDom(title, description, date) {
@@ -181,8 +189,8 @@ class userInterface {
         const cancelEditInfoBtn = createElement('button', headOfInfo, { class: 'moreInfoBtns', id: 'cancelEditInfoBtn' }, null, `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>`);
         const titleOfInfoTask = createElement('div', info, { class: 'titleOfInfoTask' });
         const dateTitleDescriptionInput = createElement('input', titleOfInfoTask, { class: 'dateTitleDescriptionInput', type: 'date', id: 'dateTitleDescriptionInput', required: '' });
-        const taskTitleDescriptionInput = createElement('textarea', titleOfInfoTask, { class: 'taskTitleDescriptionInput', id: 'taskTitleDescriptionInput', required: '' });
-        const descriptionMoreInfoInput = createElement('textarea', info, { class: 'descriptionMoreInfoInput', id: 'descriptionMoreInfoInput' });
+        const taskTitleDescriptionInput = createElement('textarea', titleOfInfoTask, { class: 'taskTitleDescriptionInput', id: 'taskTitleDescriptionInput', required: '', placeholder: 'Title' });
+        const descriptionMoreInfoInput = createElement('textarea', info, { class: 'descriptionMoreInfoInput', id: 'descriptionMoreInfoInput', placeholder: 'Description' });
 
         const elements = [background, acceptEditInfoBtn, cancelEditInfoBtn, dateTitleDescriptionInput, taskTitleDescriptionInput, descriptionMoreInfoInput];
         return elements;
