@@ -27,25 +27,7 @@ class userInterface {
         const listsContentPreview = createElement('div', document.body, { class: 'listsContentPreview', id: 'listsContentPreview' });
         createElement('h2', listsContentPreview, { class: 'titleOptions', id: 'titleOfSelection' }, 'View');
 
-        // createElement('div', listsContentPreview, { class: 'listsContentPreviewTasksContainerAllTask', 'data-indexListTasksContainer': '1' }, 'ALL TASKS');
-
         const taskPreview = createElement('div', listsContentPreview, { class: 'taskPreviews', id: 'taskPreviews' });
-
-        // const today = createElement('div', taskPreview, { class: 'today categoryStyle h', id: 'today' });
-        // createElement('h2', today, { class: 'todayTitle', id: 'todayTitle' }, 'Today');
-        // createElement('div', today, { class: 'todayTasks', id: 'todayTasks' });
-
-        // const Tomorrow = createElement('div', taskPreview, { class: 'tomorrow categoryStyle h', id: 'tomorrow' });
-        // createElement('h2', Tomorrow, { class: 'tomorrowTitle', id: 'tomorrowTitle' }, 'Tomorrow');
-        // createElement('div', Tomorrow, { class: 'tomorrowTasks', id: 'tomorrowTasks' });
-
-        // const Upcoming = createElement('div', taskPreview, { class: 'upcoming categoryStyle h', id: 'upcoming' });
-        // createElement('h2', Upcoming, { class: 'upcomingTitle', id: 'upcomingTitle' }, 'Upcoming');
-        // createElement('div', Upcoming, { class: 'upcomingTasks', id: 'upcomingTasks' });
-
-        // const Someday = createElement('div', taskPreview, { class: 'someday categoryStyle h', id: 'Someday' });
-        // createElement('h2', Someday, { class: 'somedayTitle', id: 'somedayTitle' }, 'Someday');
-        // createElement('div', Someday, { class: 'somedayTasks', id: 'somedayTasks' });
 
         // add task button
         const addTaskBtnContainer = createElement('div', taskPreview, { class: 'addTaskBtnContainer' });
@@ -130,7 +112,7 @@ class userInterface {
     }
 
     static createTaskSuggestion() {
-        const noTask = createElement('span', taskPreview, { class: 'noTask', id: 'noTask' }, 'Create a new task!✨');
+        const noTask = createElement('span', taskPreview, { class: 'noLists', id: 'noTask' }, 'Create a new task!✨');
     }
 
     static createTasksDom(title, checked, categoryName) {

@@ -504,12 +504,14 @@ body {
     display: flex;
     align-items: center;
     gap: 15px;
+    min-height: 25px;
 }
 
 .tasks h3 {
     font-size: 20px;
     font-weight: 200;
     text-align: start;
+    overflow-wrap: anywhere;
 }
 
 .inputCheckbox {
@@ -619,10 +621,12 @@ body {
 .taskTitleDescription {
     font-size: 24px;
     font-weight: 600;
+    overflow-wrap: anywhere;
 }
 
 .descriptionMoreInfo {
     overflow: auto;
+    overflow-wrap: anywhere;
 }
 
 .dateTitleDescriptionInput {
