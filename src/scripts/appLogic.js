@@ -1,28 +1,34 @@
 import { userInterface } from './domCreation.js'
+import Calendar from '@toast-ui/calendar';
 import { format, parseISO, isAfter, add, isToday, isBefore, addDays } from 'date-fns'
 
 class appLogic {
 
     static start() {
         userInterface.createPageDom();
-
-        const addListBtn = document.querySelector('#addListBtn');
+        const addListBtn = document.querySelector('#addListBtn')
         const addTaskBtn = document.querySelector('#addTaskBtn');
-        const test = document.querySelector('.calendarMenuBtn')
+        const menuOptionsBtns = document.querySelectorAll('.menusBtn')
+        const calendarContainer = document.querySelector('#calendarContainer')
 
-        test.addEventListener('click', () => {
-            console.log(listsCreator.lists)
-            const nodeList = document.querySelector('#taskPreviews').querySelectorAll(`.tasks`);
-            console.log(nodeList)
-
-        })
         addListBtn.addEventListener('click', () => { this.showForm('addList') });
         addTaskBtn.addEventListener('click', () => { this.showForm('addTask') });
+        menuOptionsBtns.forEach(btn => btn.addEventListener('click', () => {
+
+            setTimeout(() => {
+                const list = listsCreator.lists[listsCreator.listSelected - 1];
+                if (list != null || list != undefined) {
+                    listsCreator.showListContent(list)
+                };
+
+            }, 0);
+
+        }))
+
         listsCreator.createList('All Tasks')
-        console.log(new Date())
     }
 
-    static showForm(form, task) {
+    static showForm(form) {
         const item = userInterface.createForm(form)
         //item 0 = accept btn
         //item 1 = cancel btn
@@ -297,6 +303,7 @@ class listsCreator {
         this.domReference;
         this.domReferenceTitle;
         this.selected = false;
+        this.calendar;
     }
 
     static createList(title) {
@@ -306,15 +313,29 @@ class listsCreator {
         //element 3 = delete Btn
         //element 4 = index
         const newList = new listsCreator(title);
+
         const elements = userInterface.createListDom(newList.title, newList.tasksNumber, newList.taskCompleted);
+
+
+
+        newList.calendar = new Calendar(null, {
+            defaultView: 'month',
+            isReadOnly: true,
+            month: {
+                visibleWeeksCount: 3,
+            }
+
+        });
         newList.domReference = elements[0];
         newList.domReferenceTitle = document.querySelector('#titleOfSelection');
         newList.id = elements[4];
+
+        console.log(newList.calendar)
         this.lists.push(newList);
         elements[0].addEventListener('click', () => {
             const addTaskBtn = document.querySelector('#addTaskBtn');
             this.showSelectList(newList);
-            if (this.listSelected > 1) { addTaskBtn.classList.remove('h') } else { addTaskBtn.classList.add('h') };
+            if (this.listSelected > 1 && document.querySelector('#taskMenuInput').checked) { addTaskBtn.classList.remove('h') } else { addTaskBtn.classList.add('h') };
             this.changeTitleOfViewMenu();
         });
 
@@ -332,27 +353,54 @@ class listsCreator {
                 e.stopPropagation();
             });
         }
-        this.checkLists()
+        this.createListSuggestion()
     }
 
     static deleteList(list) {
-        list.domReference.remove();
-        this.lists.forEach(element => { if (element.id === list.id) { this.lists.splice(this.lists.indexOf(element), 1); } })
-        appLogic.setNewIndex(document.querySelector('#menuContent'), 'data-indexlist', this.lists, 'list')
-        if (list.id === this.listSelected) {
+        if (list.tasks.length > 0) {
+            const elements = userInterface.showAdvertising('delete')
+            elements[0].addEventListener('click', () => {
+                list.domReference.remove();
+                this.lists.forEach(element => { if (element.id === list.id) { this.lists.splice(this.lists.indexOf(element), 1); } })
+                appLogic.setNewIndex(document.querySelector('#menuContent'), 'data-indexlist', this.lists, 'list')
+                const allTasks = this.lists[0]
+                allTasks.taskCompleted = allTasks.taskCompleted - list.taskCompleted;
+                allTasks.tasksNumber = allTasks.tasksNumber - list.tasksNumber;
+                if (list.id === this.listSelected) {
+                    const addTaskBtn = document.querySelector('#addTaskBtn');
+                    this.removePreviewElements()
+                    addTaskBtn.classList.add('h');
+                    this.refreshDataList(allTasks);
+                    this.listSelected = null;
+                }
+                this.createListSuggestion()
+                this.changeTitleOfViewMenu()
+                this.showListContent(this.lists[0])
+                this.refreshDataList(this.lists[0])
+                elements[2].remove()
+            })
+            elements[1].addEventListener('click', () => {
+                elements[2].remove()
+            })
+        } else {
+            list.domReference.remove();
+            this.lists.forEach(element => { if (element.id === list.id) { this.lists.splice(this.lists.indexOf(element), 1); } })
+            appLogic.setNewIndex(document.querySelector('#menuContent'), 'data-indexlist', this.lists, 'list')
             const allTasks = this.lists[0]
             allTasks.taskCompleted = allTasks.taskCompleted - list.taskCompleted;
             allTasks.tasksNumber = allTasks.tasksNumber - list.tasksNumber;
-            const addTaskBtn = document.querySelector('#addTaskBtn');
-            document.querySelectorAll('.tasks').forEach(task => { task.remove() })
-            document.querySelectorAll('.category').forEach(category => { category.remove() })
-            addTaskBtn.classList.add('h');
-            this.refreshDataList(allTasks);
-            this.listSelected = null;
+            if (list.id === this.listSelected) {
+                const addTaskBtn = document.querySelector('#addTaskBtn');
+                this.removePreviewElements()
+                addTaskBtn.classList.add('h');
+                this.refreshDataList(allTasks);
+                this.listSelected = null;
+            }
+            this.createListSuggestion()
+            this.changeTitleOfViewMenu()
+            this.showListContent(this.lists[0])
+            this.refreshDataList(this.lists[0])
         }
-        this.checkLists()
-        this.changeTitleOfViewMenu()
-        this.refreshDataList(this.lists[0])
     }
 
     static refreshDataList(list) {
@@ -365,56 +413,103 @@ class listsCreator {
     static showSelectList(list) {
         this.lists.forEach(list => { if (list.selected === true) { list.selected = false } });
         if (list.selected === false) { list.selected = true; };
-        this.refreshListSelected();
+
         this.lists.forEach(list => {
             if (list.selected === true) { list.domReference.classList.add('active') }
-            else {
-                list.domReference.classList.remove('active')
-                document.querySelectorAll('.tasks').forEach(task => task.remove())
-                document.querySelectorAll('.category').forEach(category => category.remove())
-            }
+            else { list.domReference.classList.remove('active') }
         });
-
-        this.showTaskOfList(list)
+        this.refreshListSelected();
+        this.showListContent(list)
     }
 
-    static showTaskOfList(list) {
-        if (list.title != 'All Tasks') {
-            list.tasks.forEach(task => { tasksCreator.createTaskDom(task.title, task, task.date) })
-        } else { this.lists.forEach(list => list.tasks.forEach(task => { tasksCreator.createTaskDom(task.title, task, task.date) })) }
+    static showListContent(list) {
+        this.removePreviewElements()
+        const tasks = document.querySelector('#taskMenuInput')
+        const calendar = document.querySelector('#calendarMenuInput')
+        const settings = document.querySelector('#settingsMenuInput')
+        if (this.listSelected > 1 && document.querySelector('#taskMenuInput').checked) { addTaskBtn.classList.remove('h') } else { addTaskBtn.classList.add('h') };
+        if (tasks.checked) {
+            list.calendar.clear()
+            if (list.title != 'All Tasks') {
+                list.tasks.forEach(task => { tasksCreator.createTaskDom(task.title, task, task.date) })
+            } else { this.lists.forEach(list => list.tasks.forEach(task => { tasksCreator.createTaskDom(task.title, task, task.date) })) }
+        } else if (calendar.checked) {
+            if (this.lists.length > 1) {
+                userInterface.calendarContainer();
+                list.calendar.clear()
+                list.calendar.container = document.querySelector('.calendarContainer');
+                if (list.title != 'All Tasks') {
+                    list.tasks.forEach(task => {
+                        list.calendar.createEvents([{
+                            id: `${task.id}`,
+                            calendarId: `cal${task.id}`,
+                            category: 'milestone',
+                            title: `${task.title}`,
+                            start: new Date(parseISO(task.date)),
+                            end: new Date(parseISO(task.date)),
+
+                        }])
+                    })
+                } else {
+                    this.lists.forEach(list => list.tasks.forEach(task => {
+                        this.lists[0].calendar.createEvents([{
+                            id: `${task.id}`,
+                            calendarId: `cal${task.id}`,
+                            category: 'milestone',
+                            title: `${task.title}`,
+                            start: new Date(parseISO(task.date)),
+                            end: new Date(parseISO(task.date)),
+
+                        }])
+                    }))
+                }
+                list.calendar.render();
+            }
+        } else if (settings.checked) {
+            console.log('settings');
+        }
+
     }
 
     static changeTitleOfViewMenu() {
-        const listObj = this.lists[this.listSelected - 1]
-        if (this.listSelected != undefined || this.listSelected != null) { listObj.domReferenceTitle.innerText = listObj.title }
-        else { this.lists[0].domReferenceTitle.innerText = 'View' }
+        this.lists.forEach(list => {
+            if (list.id === this.listSelected) {
+                if (this.listSelected != undefined || this.listSelected != null) { list.domReferenceTitle.innerText = list.title }
+                else { this.lists[0].domReferenceTitle.innerText = 'View' }
+            }
+        })
     }
 
     static refreshListSelected() {
         this.lists.forEach(list => { if (list.selected === true) { this.listSelected = list.id } else { return } })
     }
 
-    static checkLists() {
+    static createListSuggestion() {
         if (this.lists.length <= 1) {
             const btn = userInterface.createListSuggestion()
             btn.addEventListener('click', () => {
                 this.createList('List of test XD')
                 const addTaskBtn = document.querySelector('#addTaskBtn');
+                if (this.listSelected > 1) { addTaskBtn.classList.remove('h') } else { addTaskBtn.classList.add('h') };
                 this.showSelectList(this.lists[1]);
                 this.refreshListSelected();
-                if (this.listSelected > 1) { addTaskBtn.classList.remove('h') } else { addTaskBtn.classList.add('h') };
                 this.changeTitleOfViewMenu()
-                tasksCreator.createTask('dfgsdfgdfgs', 'Contexto', '2022-12-12');
-                tasksCreator.createTask('dfgsdfgdfgs', 'Contexto', '2022-12-12');
-                tasksCreator.createTask('dfgsdfgdfgs', 'Contexto', '2022-12-12');
-                tasksCreator.createTask('dfgsdfgdfgs', 'Contexto', '2022-12-12');
-
-                console.log(this.lists)
+                tasksCreator.createTask('dfgsdfgdfgs', 'Contexto', '2022-10-05');
+                tasksCreator.createTask('dfgsdfgdfgs', 'Contexto', '2022-10-01');
+                tasksCreator.createTask('dfgsdfgdfgs', 'Contexto', '2022-09-28');
+                tasksCreator.createTask('dfgsdfgdfgs', 'Contexto', '2022-10-02');
+                this.showListContent(this.lists[1])
             })
         } else if (document.querySelector('#noLists') != undefined) {
             const noListsSuggestion = document.querySelector('#noLists');
             noListsSuggestion.remove();
         };
+    }
+
+    static removePreviewElements() {
+        document.querySelectorAll('.tasks').forEach(task => task.remove())
+        document.querySelectorAll('.category').forEach(category => category.remove())
+        document.querySelectorAll('.calendarContainer').forEach(calendar => calendar.remove())
     }
 }
 

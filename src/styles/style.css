@@ -38,7 +38,7 @@
     --selected-option: #553629;
     --details-color: 255, 154, 115;
     --text-color: #F0DABD; */
-    opacity: 1;
+    display: none;
 }
 
 /* width */
@@ -67,6 +67,92 @@
     border-radius: 10px;
 }
 
+.calendarContainer {
+    height: 100%;
+    width: 100%;
+}
+
+.toastui-calendar-see-more-header span {
+    color: rgb(var(--details-color)) !important;
+}
+
+.toastui-calendar-see-more {
+    border: none !important;
+    box-shadow: rgb(0 0 0 / 10%) 0px 2px 6px 0px;
+    background-color: var(--module-color) !important;
+}
+
+.toastui-calendar-see-more-container {
+    max-width: 280px;
+    max-height: 410px;
+    height: 100% !important;
+    width: 100% !important;
+    top: 0px !important;
+    left: 0px !important;
+    right: 0px !important;
+    bottom: 0px !important;
+    margin: auto !important;
+}
+
+.toastui-calendar-weekday-event-block {
+    padding-top: 10px !important;
+}
+
+.toastui-calendar-icon.toastui-calendar-ic-milestone {
+    display: none !important;
+}
+
+.toastui-calendar-grid-cell-date .toastui-calendar-weekday-grid-date.toastui-calendar-weekday-grid-date-decorator {
+    background-color: rgb(var(--details-color)) !important;
+    color: var(--module-color) !important;
+    border-radius: 10px !important;
+}
+
+.toastui-calendar-layout.toastui-calendar-month {
+    background-color: transparent !important;
+}
+
+.toastui-calendar-weekday-event {
+    margin-inline: 8px !important;
+    background-color: rgb(var(--details-color)) !important;
+    border-left: 3px solid var(--selected-option) !important;
+    border-radius: 2px !important;
+    overflow: hidden !important;
+    height: 24px !important;
+    line-height: 24px !important;
+    opacity: 1 !important;
+}
+
+.toastui-calendar-weekday-event-title span {
+    color: var(--module-color) !important;
+}
+
+.toastui-calendar-weekday-grid {
+    height: 100%;
+    width: 100%;
+    border-radius: 0px;
+    display: flex;
+    gap: 5px;
+    padding-block: 2.5px;
+    border: none !important;
+}
+
+.toastui-calendar-daygrid-cell {
+    background-color: #1F2228 !important;
+    border-radius: 10px;
+    border: none !important;
+    position: initial !important;
+    flex: 1;
+}
+
+.toastui-calendar-day-names.toastui-calendar-month {
+    padding: 0 !important;
+}
+
+.toastui-calendar-day-name-item.toastui-calendar-month {
+    padding: 0 !important;
+}
+
 input:focus,
 textarea:focus {
     outline: rgb(var(--details-color)) solid 0.5px;
@@ -82,6 +168,12 @@ body {
     height: 100vh;
     background-color: var(--background-color);
     gap: 20px;
+}
+
+.btnContainer {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
 }
 
 .menu,
@@ -169,20 +261,34 @@ body {
     justify-content: space-between;
 }
 
-.menusBtn {
-    background-color: transparent;
-    color: rgb(var(--details-color));
-    cursor: pointer;
-    border: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 13px;
-}
-
 .icons {
     width: 40px;
     color: rgb(var(--details-color));
+}
+
+.inputRadio {
+    display: none;
+}
+
+.menusBtn {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.menusBtn svg,
+.menusBtn p {
+    opacity: 50%;
+}
+
+.menusBtn p {
+    font-size: 13px;
+}
+
+.inputRadio:checked+.menusBtn svg,
+.inputRadio:checked+.menusBtn p {
+    opacity: 100% !important;
 }
 
 .addListBtnContainer {

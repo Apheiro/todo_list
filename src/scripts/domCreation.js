@@ -9,29 +9,41 @@ class userInterface {
         const menu = createElement('div', document.body, { class: 'menu' });
         createElement('h2', menu, { class: 'titleOptions' }, 'My Lists');
         const menuContent = createElement('div', menu, { class: 'menuContent', id: 'menuContent' });
-        const menuSelector = createElement('div', menu, { class: 'menuOptions' });
-        createElement('button', menuSelector, { class: 'taskMenuBtn menusBtn' }, null, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 icons">
-        <path class="icons" d="M6 3a3 3 0 00-3 3v2.25a3 3 0 003 3h2.25a3 3 0 003-3V6a3 3 0 00-3-3H6zM15.75 3a3 3 0 00-3 3v2.25a3 3 0 003 3H18a3 3 0 003-3V6a3 3 0 00-3-3h-2.25zM6 12.75a3 3 0 00-3 3V18a3 3 0 003 3h2.25a3 3 0 003-3v-2.25a3 3 0 00-3-3H6zM17.625 13.5a.75.75 0 00-1.5 0v2.625H13.5a.75.75 0 000 1.5h2.625v2.625a.75.75 0 001.5 0v-2.625h2.625a.75.75 0 000-1.5h-2.625V13.5z" />
-        </svg>Tasks`);
-        createElement('button', menuSelector, { class: 'calendarMenuBtn menusBtn' }, null, `<svg xmlns="http://www.w3.org/2000/svg"  class="icons" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-        <path class="icons" d="M12.75 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM7.5 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM8.25 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM9.75 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM10.5 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12.75 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM14.25 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM15 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM16.5 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM15 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM16.5 13.5a.75.75 0 100-1.5.75.75 0 000 1.5z" />
-        <path class="icons" fill-rule="evenodd" d="M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zm13.5 9a1.5 1.5 0 00-1.5-1.5H5.25a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5v-7.5z" clip-rule="evenodd" />
-        </svg>Calendar`);
-        createElement('button', menuSelector, { class: 'ConfigBtn menusBtn' }, null, `<svg xmlns="http://www.w3.org/2000/svg" class="icons" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-        <path class="icons" fill-rule="evenodd" d="M11.078 2.25c-.917 0-1.699.663-1.85 1.567L9.05 4.889c-.02.12-.115.26-.297.348a7.493 7.493 0 00-.986.57c-.166.115-.334.126-.45.083L6.3 5.508a1.875 1.875 0 00-2.282.819l-.922 1.597a1.875 1.875 0 00.432 2.385l.84.692c.095.078.17.229.154.43a7.598 7.598 0 000 1.139c.015.2-.059.352-.153.43l-.841.692a1.875 1.875 0 00-.432 2.385l.922 1.597a1.875 1.875 0 002.282.818l1.019-.382c.115-.043.283-.031.45.082.312.214.641.405.985.57.182.088.277.228.297.35l.178 1.071c.151.904.933 1.567 1.85 1.567h1.844c.916 0 1.699-.663 1.85-1.567l.178-1.072c.02-.12.114-.26.297-.349.344-.165.673-.356.985-.57.167-.114.335-.125.45-.082l1.02.382a1.875 1.875 0 002.28-.819l.923-1.597a1.875 1.875 0 00-.432-2.385l-.84-.692c-.095-.078-.17-.229-.154-.43a7.614 7.614 0 000-1.139c-.016-.2.059-.352.153-.43l.84-.692c.708-.582.891-1.59.433-2.385l-.922-1.597a1.875 1.875 0 00-2.282-.818l-1.02.382c-.114.043-.282.031-.449-.083a7.49 7.49 0 00-.985-.57c-.183-.087-.277-.227-.297-.348l-.179-1.072a1.875 1.875 0 00-1.85-1.567h-1.843zM12 15.75a3.75 3.75 0 100-7.5 3.75 3.75 0 000 7.5z" clip-rule="evenodd" />
-        </svg>Settings`);
+        const menuSelector = createElement('form', menu, { class: 'menuOptions' });
+
+
+        const labelInputRatio0 = createElement('label', menuSelector, {});
+        createElement('input', labelInputRatio0, { class: 'inputRadio', id: 'taskMenuInput', type: 'radio', name: 'menuOptions', checked: '' });
+        const buttonMenuOption0 = createElement('div', labelInputRatio0, { class: 'menusBtn', id: 'taskMenuBtn' });
+        createElementNS('svg', buttonMenuOption0, { class: 'taskMenuBtn  w-6 h-6 icons', viewBox: "0 0 24 24", fill: "currentColor" }, null, `<path class="icons" d="M6 3a3 3 0 00-3 3v2.25a3 3 0 003 3h2.25a3 3 0 003-3V6a3 3 0 00-3-3H6zM15.75 3a3 3 0 00-3 3v2.25a3 3 0 003 3H18a3 3 0 003-3V6a3 3 0 00-3-3h-2.25zM6 12.75a3 3 0 00-3 3V18a3 3 0 003 3h2.25a3 3 0 003-3v-2.25a3 3 0 00-3-3H6zM17.625 13.5a.75.75 0 00-1.5 0v2.625H13.5a.75.75 0 000 1.5h2.625v2.625a.75.75 0 001.5 0v-2.625h2.625a.75.75 0 000-1.5h-2.625V13.5z"/>`);
+        createElement('p', buttonMenuOption0, {}, 'Tasks');
+
+        const labelInputRatio1 = createElement('label', menuSelector, {});
+        createElement('input', labelInputRatio1, { class: 'inputRadio', id: 'calendarMenuInput', type: 'radio', name: 'menuOptions' });
+        const buttonMenuOption1 = createElement('div', labelInputRatio1, { class: 'menusBtn', id: 'calendarMenuBtn' });
+        createElementNS('svg', buttonMenuOption1, { class: 'calendarMenuBtn  icons w-6 h-6', viewBox: "0 0 24 24", fill: "currentColor" }, null, `<path class="icons" d="M12.75 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM7.5 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM8.25 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM9.75 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM10.5 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12.75 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM14.25 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM15 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM16.5 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM15 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM16.5 13.5a.75.75 0 100-1.5.75.75 0 000 1.5z" />
+        <path class="icons" fill-rule="evenodd" d="M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zm13.5 9a1.5 1.5 0 00-1.5-1.5H5.25a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5v-7.5z" clip-rule="evenodd" />`);
+        createElement('p', buttonMenuOption1, {}, 'Calendar');
+
+        const labelInputRatio2 = createElement('label', menuSelector, {});
+        createElement('input', labelInputRatio2, { class: 'inputRadio', id: 'settingsMenuInput', type: 'radio', name: 'menuOptions' });
+        const buttonMenuOption2 = createElement('div', labelInputRatio2, { class: 'menusBtn', id: 'settingsMenuBtn' });
+        createElementNS('svg', buttonMenuOption2, { class: 'settingsMenuBtn  icons w-6 h-6', viewBox: "0 0 24 24", fill: "currentColor" }, null, `<path class="icons" fill-rule="evenodd" d="M11.078 2.25c-.917 0-1.699.663-1.85 1.567L9.05 4.889c-.02.12-.115.26-.297.348a7.493 7.493 0 00-.986.57c-.166.115-.334.126-.45.083L6.3 5.508a1.875 1.875 0 00-2.282.819l-.922 1.597a1.875 1.875 0 00.432 2.385l.84.692c.095.078.17.229.154.43a7.598 7.598 0 000 1.139c.015.2-.059.352-.153.43l-.841.692a1.875 1.875 0 00-.432 2.385l.922 1.597a1.875 1.875 0 002.282.818l1.019-.382c.115-.043.283-.031.45.082.312.214.641.405.985.57.182.088.277.228.297.35l.178 1.071c.151.904.933 1.567 1.85 1.567h1.844c.916 0 1.699-.663 1.85-1.567l.178-1.072c.02-.12.114-.26.297-.349.344-.165.673-.356.985-.57.167-.114.335-.125.45-.082l1.02.382a1.875 1.875 0 002.28-.819l.923-1.597a1.875 1.875 0 00-.432-2.385l-.84-.692c-.095-.078-.17-.229-.154-.43a7.614 
+        7.614 0 000-1.139c-.016-.2.059-.352.153-.43l.84-.692c.708-.582.891-1.59.433-2.385l-.922-1.597a1.875 1.875 0 00-2.282-.818l-1.02.382c-.114.043-.282.031-.449-.083a7.49 7.49 0 00-.985-.57c-.183-.087-.277-.227-.297-.348l-.179-1.072a1.875 1.875 0 00-1.85-1.567h-1.843zM12 15.75a3.75 3.75 0 100-7.5 3.75 3.75 0 000 7.5z" clip-rule="evenodd"/>`);
+        createElement('p', buttonMenuOption2, {}, 'Settings');
+
+
 
         const addListBtnContainer = createElement('div', menuContent, { class: 'addListBtnContainer' });
         createElement('button', addListBtnContainer, { class: 'addListBtn', id: 'addListBtn' }, '+');
-
         const listsContentPreview = createElement('div', document.body, { class: 'listsContentPreview', id: 'listsContentPreview' });
         createElement('h2', listsContentPreview, { class: 'titleOptions', id: 'titleOfSelection' }, 'View');
-
         const taskPreview = createElement('div', listsContentPreview, { class: 'taskPreviews', id: 'taskPreviews' });
 
         // add task button
         const addTaskBtnContainer = createElement('div', taskPreview, { class: 'addTaskBtnContainer' });
         createElement('button', addTaskBtnContainer, { class: 'addTaskBtn h', id: 'addTaskBtn' }, 'Add Task +');
+
         // add task button
     }
 
@@ -57,6 +69,11 @@ class userInterface {
         return elements
     }
 
+    static calendarContainer() {
+        const taskPreview = document.querySelector('#taskPreviews')
+        createElement('div', taskPreview, { class: 'calendarContainer' })
+    }
+
     static showAdvertising(situation) {
         if (situation === 'All Tasks') {
             const advertising = createElement('div', document.querySelector('body'), { class: 'advertising' });
@@ -65,6 +82,16 @@ class userInterface {
             createElement('p', advertisingContainer, null, 'You can\'t create a List named \"All Tasks\" try other name 😓');
             const acceptBtn = createElement('button', advertisingContainer, {}, 'Accept');
             const elements = [acceptBtn, advertising]
+            return elements
+        } else if (situation === 'delete') {
+            const advertising = createElement('div', document.querySelector('body'), { class: 'advertising' });
+            const background = createElement('div', advertising, { class: 'background' });
+            const advertisingContainer = createElement('div', background, { class: 'advertisingContainer' });
+            createElement('p', advertisingContainer, null, 'You have some tasks on this list. Are you sure you want to delete it? ');
+            const btnContainer = createElement('div', advertisingContainer, { class: 'btnContainer' });
+            const acceptBtn = createElement('button', btnContainer, {}, 'Accept');
+            const cancelBtn = createElement('button', btnContainer, {}, 'cancel');
+            const elements = [acceptBtn, cancelBtn, advertising]
             return elements
         }
     }
@@ -112,7 +139,8 @@ class userInterface {
     }
 
     static createTaskSuggestion() {
-        const noTask = createElement('span', taskPreview, { class: 'noLists', id: 'noTask' }, 'Create a new task!✨');
+        const taskPreview = document.querySelector('#taskPreviews')
+        createElement('span', taskPreview, { class: 'noLists', id: 'noTask' }, 'Create a new task!✨');
     }
 
     static createTasksDom(title, checked, categoryName) {
