@@ -1,44 +1,33 @@
 :root {
-    --background-color: #1f2228;
-    --module-color: #262c33;
-    --module-color-secondary: #2b3138;
-    --module-color-secondary-2: #323a43;
+    /* --background-color: #202329;
+    --module-color: #262C33;
+    --module-color-secondary: #2B3138;
+    --module-color-secondary-2: #323A43;
     --selected-option: #425529;
     --details-color: 218, 255, 115;
-    --text-color: #daf0bd;
-    /* --background-color: #1f2228;
-    --module-color: #262c33;
-    --module-color-secondary: #2b3138;
-    --module-color-secondary-2: #323a43;
+    --text-color: #daf0bd; */
+    /* --background-color: #202329;
+    --module-color: #262C33;
+    --module-color-secondary: #2B3138;
+    --module-color-secondary-2: #323A43;
     --selected-option: #553629;
-    --details-color: 255, 155, 115;
+    --details-color: 255, 154, 115;
     --text-color: #f0dabd; */
-    /* --background-color: #D4D4D4;
-    --module-color: #F0F0F0;
-    --module-color-secondary: #ffffff;
-    --module-color-secondary-2: #ffffff;
-    --selected-option: #CDCAFF;
-    --details-color: 119, 110, 255;
-    --text-color: #717171; */
-    --shadow-element: drop-shadow(4px 4px 5px rgba(0, 0, 0, 0.1))
-}
-
-.dark-mode {
     /* --background-color: #202329;
     --module-color: #262C33;
     --module-color-secondary: #2B3138;
     --module-color-secondary-2: #323A43;
     --selected-option: #343068;
     --details-color: 119, 110, 255;
-    --text-color: #C4BDF0;
-    --background-color: #202329;
-    --module-color: #262C33;
-    --module-color-secondary: #2B3138;
-    --module-color-secondary-2: #323A43;
-    --selected-option: #553629;
-    --details-color: 255, 154, 115;
-    --text-color: #F0DABD; */
-    display: none;
+    --text-color: #C4BDF0; */
+    --background-color: #D4D4D4;
+    --module-color: #F0F0F0;
+    --module-color-secondary: #ffffff;
+    --module-color-secondary-2: #ffffff;
+    --selected-option: #CDCAFF;
+    --details-color: 119, 110, 255;
+    --text-color: #717171;
+    --shadow-element: drop-shadow(4px 4px 5px rgba(0, 0, 0, 0.1))
 }
 
 /* width */
@@ -70,6 +59,21 @@
 .calendarContainer {
     height: 100%;
     width: 100%;
+}
+
+.themeOptionContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.themeTitle {
+    font-size: 20px;
+}
+
+.themeBtnsContainer {
+    display: flex;
+    gap: 20px;
 }
 
 .toastui-calendar-see-more-header span {
@@ -138,7 +142,7 @@
 }
 
 .toastui-calendar-daygrid-cell {
-    background-color: #1F2228 !important;
+    background-color: var(--background-color) !important;
     border-radius: 10px;
     border: none !important;
     position: initial !important;
@@ -531,7 +535,7 @@ body {
 }
 
 .noLists {
-    font-size: 70px;
+    font-size: 55px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -707,7 +711,7 @@ body {
     cursor: pointer;
 }
 
-.moreInfoBtns svg {
+.moreInfoBtns svg path {
     width: 30px;
     stroke: rgb(var(--details-color));
 }

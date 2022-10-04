@@ -33,7 +33,6 @@ class userInterface {
         createElement('p', buttonMenuOption2, {}, 'Settings');
 
 
-
         const addListBtnContainer = createElement('div', menuContent, { class: 'addListBtnContainer' });
         createElement('button', addListBtnContainer, { class: 'addListBtn', id: 'addListBtn' }, '+');
         const listsContentPreview = createElement('div', document.body, { class: 'listsContentPreview', id: 'listsContentPreview' });
@@ -206,6 +205,18 @@ class userInterface {
         return elements;
     }
 
+    static settingsDom() {
+        const taskPreview = document.querySelector('#taskPreviews')
+        const settingsContainer = createElement('div', taskPreview, { class: 'settingsContainer' });
+        const themeOptionContainer = createElement('div', settingsContainer, { class: 'themeOptionContainer' });
+        createElement('h3', themeOptionContainer, { class: 'themeTitle' }, 'Theme');
+        const themeBtnsContainer = createElement('div', themeOptionContainer, { class: 'themeBtnsContainer' });
+        const btn1 = createElement('button', themeBtnsContainer, { class: 'themeBtns', id: 'theme1', style: 'background:#776EFF; border: 10px solid #F0F0F0; width: 82px; height: 54px; border-radius: 23px;cursor:pointer' });
+        const btn2 = createElement('button', themeBtnsContainer, { class: 'themeBtns', id: 'theme2', style: 'background:#776EFF; border: 10px solid #262c33; width: 82px; height: 54px; border-radius: 23px;cursor:pointer' });
+        const btn3 = createElement('button', themeBtnsContainer, { class: 'themeBtns', id: 'theme3', style: 'background:#FF9B73; border: 10px solid #262c33; width: 82px; height: 54px; border-radius: 23px;cursor:pointer' });
+        const btn4 = createElement('button', themeBtnsContainer, { class: 'themeBtns', id: 'theme4', style: 'background:#DAFF73; border: 10px solid #262c33; width: 82px; height: 54px; border-radius: 23px;cursor:pointer' });
+        return [btn1, btn2, btn3, btn4]
+    }
 }
 
 export { userInterface }
