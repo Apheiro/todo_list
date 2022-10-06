@@ -40,10 +40,15 @@ class userInterface {
         const taskPreview = createElement('div', listsContentPreview, { class: 'taskPreviews', id: 'taskPreviews' });
 
         // add task button
-        const addTaskBtnContainer = createElement('div', taskPreview, { class: 'addTaskBtnContainer' });
-        createElement('button', addTaskBtnContainer, { class: 'addTaskBtn h', id: 'addTaskBtn' }, 'Add Task +');
 
         // add task button
+    }
+
+    static taskBtn() {
+        const taskPreview = document.querySelector('#taskPreviews')
+        const addTaskBtnContainer = createElement('div', taskPreview, { class: 'addTaskBtnContainer' });
+        const taskBtn = createElement('button', addTaskBtnContainer, { class: 'addTaskBtn', id: 'addTaskBtn' }, 'Add Task +');
+        return taskBtn
     }
 
     static createListDom(title, tasksNumber, tasksCompleted) {
@@ -56,15 +61,23 @@ class userInterface {
         createElement('p', titleAndTasksContainer, { class: 'TasksOfList' }, `${tasksNumber} Tasks`);
         createElement('p', firstLine, { class: 'TasksCompletedOfList' }, `${tasksCompleted} Completed`);
 
-        if (title != 'All Tasks') {
-            const buttonSettings = createElement('div', list, { class: 'buttonSettings' });
-            const editButton = createElement('button', buttonSettings, { class: 'editButton', id: 'editButton' }, 'edit');
-            const deleteButton = createElement('button', buttonSettings, { class: 'deleteButton', id: 'deleteButton' }, 'delete');
-            const elements = [list, buttonSettings, editButton, deleteButton, initialIndex]
-            return elements
-        }
+        // if (title != 'All Tasks') {
+        //     const buttonSettings = createElement('div', list, { class: 'buttonSettings' });
+        //     const editButton = createElement('button', buttonSettings, { class: 'editButton', id: 'editButton' }, 'edit');
+        //     const deleteButton = createElement('button', buttonSettings, { class: 'deleteButton', id: 'deleteButton' }, 'delete');
+        //     const elements = [list, buttonSettings, editButton, deleteButton, initialIndex]
+        //     return elements
+        // }
 
         const elements = [list, null, null, null, initialIndex]
+        return elements
+    }
+
+    static createListBtnsDom(parentElement) {
+        const buttonSettings = createElement('div', parentElement, { class: 'buttonSettings' });
+        const editButton = createElement('button', buttonSettings, { class: 'editButton', id: 'editButton' }, 'edit');
+        const deleteButton = createElement('button', buttonSettings, { class: 'deleteButton', id: 'deleteButton' }, 'delete');
+        const elements = [buttonSettings, editButton, deleteButton]
         return elements
     }
 
@@ -75,22 +88,20 @@ class userInterface {
 
     static showAdvertising(situation) {
         if (situation === 'All Tasks') {
-            const advertising = createElement('div', document.querySelector('body'), { class: 'advertising' });
-            const background = createElement('div', advertising, { class: 'background' });
+            const background = createElement('div', document.querySelector('body'), { class: 'background' });
             const advertisingContainer = createElement('div', background, { class: 'advertisingContainer' });
             createElement('p', advertisingContainer, null, 'You can\'t create a List named \"All Tasks\" try other name 😓');
             const acceptBtn = createElement('button', advertisingContainer, {}, 'Accept');
-            const elements = [acceptBtn, advertising]
+            const elements = [acceptBtn, background, advertisingContainer]
             return elements
         } else if (situation === 'delete') {
-            const advertising = createElement('div', document.querySelector('body'), { class: 'advertising' });
-            const background = createElement('div', advertising, { class: 'background' });
+            const background = createElement('div', document.querySelector('body'), { class: 'background' });
             const advertisingContainer = createElement('div', background, { class: 'advertisingContainer' });
             createElement('p', advertisingContainer, null, 'You have some tasks on this list. Are you sure you want to delete it? ');
             const btnContainer = createElement('div', advertisingContainer, { class: 'btnContainer' });
             const acceptBtn = createElement('button', btnContainer, {}, 'Accept');
             const cancelBtn = createElement('button', btnContainer, {}, 'cancel');
-            const elements = [acceptBtn, cancelBtn, advertising]
+            const elements = [acceptBtn, cancelBtn, background, advertisingContainer]
             return elements
         }
     }
@@ -104,7 +115,7 @@ class userInterface {
             const addListOptions = createElement('div', addListForm, { class: 'addListOptions' });
             const addListSubmitBtn = createElement('button', addListOptions, { class: 'submitFormBtn', id: 'addListSubmitBtn', type: 'Submit' }, 'Add');
             const addListCancelBtn = createElement('button', addListOptions, { class: 'cancelFormBtn', id: 'addListCancelBtn' }, 'Cancel');
-            const elements = [addListSubmitBtn, addListCancelBtn, backgroundOfForms]
+            const elements = [addListSubmitBtn, addListCancelBtn, backgroundOfForms, addListForm]
             return elements
         } else if (form === 'addTask') {
             const addTaskForm = createElement('form', backgroundOfForms, { class: 'addTaskForm', id: 'addTaskForm' });
@@ -115,7 +126,7 @@ class userInterface {
             const addTaskOptions = createElement('div', addTaskForm, { class: 'addTaskOptions' });
             const addTaskSubmitBtn = createElement('button', addTaskOptions, { class: 'submitFormBtn ', id: 'addTaskSubmitBtn', type: 'Submit' }, 'Add');
             const addTaskCancelBtn = createElement('button', addTaskOptions, { class: 'cancelFormBtn', id: 'addTaskCancelBtn' }, 'Cancel');
-            const elements = [addTaskSubmitBtn, addTaskCancelBtn, backgroundOfForms];
+            const elements = [addTaskSubmitBtn, addTaskCancelBtn, backgroundOfForms, addTaskForm];
             return elements;
         } else if (form === 'editList') {
             const editListNameForm = createElement('form', backgroundOfForms, { class: 'editListNameForm', id: 'editListNameForm' });
@@ -124,7 +135,7 @@ class userInterface {
             const editListOptions = createElement('div', editListNameForm, { class: 'editListOptions' });
             const editListSubmitBtn = createElement('button', editListOptions, { class: 'submitFormBtn', id: 'editListSubmitBtn', type: 'Edit' }, 'Accept');
             const editListCancelBtn = createElement('button', editListOptions, { class: 'cancelFormBtn', id: 'editListCancelBtn' }, 'Cancel');
-            const elements = [editListSubmitBtn, editListCancelBtn, backgroundOfForms]
+            const elements = [editListSubmitBtn, editListCancelBtn, backgroundOfForms, editListNameForm]
             return elements
         }
 
@@ -157,11 +168,11 @@ class userInterface {
         const checkboxCustom = createElement('label', tasks, { class: 'checkboxCustom' });
         const inputCheckbox = inputCheckboxFunction()
         createElement('span', checkboxCustom, { class: 'checkbox' });
-        createElement('h3', tasks, { class: 'titleTask' }, `${title}`);
+        const titleTsk = createElement('h3', tasks, { class: 'titleTask' }, `${title}`);
         const btns = createElement('div', tasks, { class: 'taskBtnsGroup' });
         const deleteBtn = createElement('button', btns, { class: 'taskBtns', id: 'deleteTaskBtn' }, null, `<svg class="btnOfTask" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.75 7.75L12.25 12.25M12.25 7.75L7.75 12.25M19 10C19 11.1819 18.7672 12.3522 18.3149 13.4442C17.8626 14.5361 17.1997 15.5282 16.364 16.364C15.5282 17.1997 14.5361 17.8626 13.4442 18.3149C12.3522 18.7672 11.1819 19 10 19C8.8181 19 7.64778 18.7672 6.55585 18.3149C5.46392 17.8626 4.47177 17.1997 3.63604 16.364C2.80031 15.5282 2.13738 14.5361 1.68508 13.4442C1.23279 12.3522 1 11.1819 1 10C1 7.61305 1.94821 5.32387 3.63604 3.63604C5.32387 1.94821 7.61305 1 10 1C12.3869 1 14.6761 1.94821 16.364 3.63604C18.0518 5.32387 19 7.61305 19 10Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`);
         const moreInfoBtn = createElement('button', btns, { class: 'taskBtns', id: 'moreInfoTaskBtn' }, null, `<svg class="btnOfTask" width="25" height="25" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.625 10H6.25M10.375 10H10M14.125 10H13.75M6.625 10C6.625 10.0995 6.58549 10.1948 6.51517 10.2652C6.44484 10.3355 6.34946 10.375 6.25 10.375C6.15054 10.375 6.05516 10.3355 5.98484 10.2652C5.91451 10.1948 5.875 10.0995 5.875 10C5.875 9.90054 5.91451 9.80516 5.98484 9.73483C6.05516 9.66451 6.15054 9.625 6.25 9.625C6.34946 9.625 6.44484 9.66451 6.51517 9.73483C6.58549 9.80516 6.625 9.90054 6.625 10V10ZM10.375 10C10.375 10.0995 10.3355 10.1948 10.2652 10.2652C10.1948 10.3355 10.0995 10.375 10 10.375C9.90054 10.375 9.80516 10.3355 9.73483 10.2652C9.66451 10.1948 9.625 10.0995 9.625 10C9.625 9.90054 9.66451 9.80516 9.73483 9.73483C9.80516 9.66451 9.90054 9.625 10 9.625C10.0995 9.625 10.1948 9.66451 10.2652 9.73483C10.3355 9.80516 10.375 9.90054 10.375 10V10ZM14.125 10C14.125 10.0995 14.0855 10.1948 14.0152 10.2652C13.9448 10.3355 13.8495 10.375 13.75 10.375C13.6505 10.375 13.5552 10.3355 13.4848 10.2652C13.4145 10.1948 13.375 10.0995 13.375 10C13.375 9.90054 13.4145 9.80516 13.4848 9.73483C13.5552 9.66451 13.6505 9.625 13.75 9.625C13.8495 9.625 13.9448 9.66451 14.0152 9.73483C14.0855 9.80516 14.125 9.90054 14.125 10V10ZM19 10C19 11.1819 18.7672 12.3522 18.3149 13.4442C17.8626 14.5361 17.1997 15.5282 16.364 16.364C15.5282 17.1997 14.5361 17.8626 13.4442 18.3149C12.3522 18.7672 11.1819 19 10 19C8.8181 19 7.64778 18.7672 6.55585 18.3149C5.46392 17.8626 4.47177 17.1997 3.63604 16.364C2.80031 15.5282 2.13738 14.5361 1.68508 13.4442C1.23279 12.3522 1 11.1819 1 10C1 7.61305 1.94821 5.32387 3.63604 3.63604C5.32387 1.94821 7.61305 1 10 1C12.3869 1 14.6761 1.94821 16.364 3.63604C18.0518 5.32387 19 7.61305 19 10Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`);
-        const elements = [tasks, deleteBtn, moreInfoBtn, inputCheckbox];
+        const elements = [tasks, deleteBtn, moreInfoBtn, inputCheckbox, checkboxCustom, titleTsk, category];
         return elements;
     }
 
@@ -170,8 +181,9 @@ class userInterface {
         const category = createElement('div', taskPreviews, { class: 'category', id: 'category', style: `order: ${order}` });
         const categoryHeader = createElement('div', category, { class: 'categoryHeader' });
         const categoryTitle = createElement('h2', categoryHeader, { class: 'categoryTitle' }, categoryName);
-        const openBtn = createElement('button', categoryHeader, { class: 'moreInfoBtns' }, null, `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>`);
+        const openBtn = createElement('button', categoryHeader, { class: 'moreInfoBtns showTasksBtn' }, null, `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>`);
         const taskContainer = createElement('div', category, { class: 'taskContainer', id: categoryName });
+        return [categoryTitle, openBtn, taskContainer];
     }
 
     static taskInfoDom(title, description, date) {

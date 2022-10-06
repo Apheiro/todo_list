@@ -1,6 +1,7 @@
 import { userInterface } from './domCreation.js'
 import { listsCreator } from './listsCreator'
 import { tasksCreator } from './tasksCreator'
+import { animate } from './animations'
 
 
 
@@ -8,35 +9,77 @@ class appLogic {
 
     static start() {
         userInterface.createPageDom();
+
         const addListBtn = document.querySelector('#addListBtn')
         const addTaskBtn = document.querySelector('#addTaskBtn');
         const menuOptionsBtns = document.querySelectorAll('.menusBtn')
+        const sadtest = document.querySelector('.titleOptions')
+
+        sadtest.addEventListener('click', () => {
+            console.log(listsCreator.lists)
+            console.log(listsCreator.listSelected)
+        })
 
         addListBtn.addEventListener('click', () => { this.showForm('addList') });
-        addTaskBtn.addEventListener('click', () => { this.showForm('addTask') });
+
         menuOptionsBtns.forEach(btn => btn.addEventListener('click', () => {
             setTimeout(() => {
                 if (btn.id == 'settingsMenuBtn') {
-                    listsCreator.removePreviewElements()
-                    this.showSettings()
-                } else {
-                    listsCreator.createListSuggestion()
-                    listsCreator.changeTitleOfViewMenu()
-                    const list = listsCreator.lists[listsCreator.listSelected - 1];
-                    if (list != null || list != undefined) { listsCreator.showListContent(list) };
+                    animate.contentOut(() => {
+                        listsCreator.removePreviewElements('task');
+                        listsCreator.removePreviewElements('category');
+                        listsCreator.removePreviewElements('calendarContainer');
+                        listsCreator.removePreviewElements('noLists');
+                        listsCreator.showListContent(listsCreator.lists[0]);
+                        animate.settingsIn();
+                    })
 
+                } else {
+                    animate.contentOut(() => {
+                        listsCreator.removePreviewElements('task')
+                        listsCreator.removePreviewElements('category')
+                        listsCreator.removePreviewElements('calendarContainer')
+                        listsCreator.removePreviewElements('settingsContainer')
+                        listsCreator.createListSuggestion()
+                        listsCreator.changeTitleOfViewMenu()
+                        const list = listsCreator.lists[listsCreator.listSelected - 1];
+                        if (list != null || list != undefined) { listsCreator.showListContent(list) };
+                    })
                 }
             }, 0);
         }))
 
         listsCreator.createList('All Tasks')
+        animate.interface()
+    }
+
+    static taskBtnCreator() {
+        if (listsCreator.listSelected > 1 && document.querySelector('#taskMenuInput').checked) {
+            if (document.querySelector('.addTaskBtnContainer') == undefined) {
+                const addTaskBtn = userInterface.taskBtn()
+                animate.addTaskIn()
+                addTaskBtn.addEventListener('click', () => { this.showForm('addTask') });
+            }
+        } else {
+            if (document.querySelector('.addTaskBtnContainer') != undefined) {
+                console.log('test')
+                animate.addTaskOut(() => {
+                    document.querySelector('.addTaskBtnContainer').remove()
+                })
+
+            }
+
+        }
     }
 
     static showForm(form) {
         const item = userInterface.createForm(form)
+        animate.formsIn(item[3], item[2])
+
         //item 0 = accept btn
         //item 1 = cancel btn
         //item 2 = background contains form
+        //item 3 = form
         if (form === 'addList') {
             const input = item[2].querySelector('#addListInput')
             const form = item[2].querySelector('#addListForm')
@@ -46,14 +89,18 @@ class appLogic {
                     e.preventDefault();
                     form.reset();
                 } else if (input.value !== '') {
-                    listsCreator.createList(input.value);
+                    animate.formsOut(item[3], item[2], () => {
+                        listsCreator.createList(input.value);
+                        item[2].remove();
+                    })
                     e.preventDefault();
-                    item[2].remove();
                 }
             });
             item[1].addEventListener('click', (e) => {
+                animate.formsOut(item[3], item[2], () => {
+                    item[2].remove();
+                })
                 e.preventDefault();
-                item[2].remove();
             });
 
         } else if (form === 'addTask') {
@@ -62,14 +109,17 @@ class appLogic {
             const inputDate = item[2].querySelector('#addTaskDateInput')
             item[0].addEventListener('click', (e) => {
                 if (input.value !== '' && inputDate.value !== '') {
-                    tasksCreator.createTask(input.value, inputDescription.value, inputDate.value)
+                    animate.formsOut(item[3], item[2], () => {
+                        tasksCreator.createTask(input.value, inputDescription.value, inputDate.value)
+                        item[2].remove();
+                    })
                     e.preventDefault();
-                    item[2].remove();
                 }
             });
             item[1].addEventListener('click', (e) => {
-                e.preventDefault();
-                item[2].remove()
+                animate.formsOut(item[3], item[2], () => {
+                    item[2].remove();
+                })
             });
 
         } else if (form === 'editList') {
@@ -81,20 +131,26 @@ class appLogic {
                     e.preventDefault();
                     form.reset();
                 } else if (input.value !== '') {
-                    listsCreator.lists.forEach(element => {
-                        if (element.id === listsCreator.selectedListOption) {
-                            element.title = input.value
-                            listsCreator.refreshDataList(element)
-                        }
+                    animate.formsOut(item[3], item[2], () => {
+                        listsCreator.lists.forEach(element => {
+                            if (element.id === listsCreator.selectedListOption) {
+                                element.title = input.value
+                                listsCreator.refreshDataList(element)
+                            }
+                        })
+                        listsCreator.changeTitleOfViewMenu()
+                        item[2].remove()
                     })
                     e.preventDefault();
-                    listsCreator.changeTitleOfViewMenu()
-                    item[2].remove()
+
                 }
             });
             item[1].addEventListener('click', (e) => {
+                animate.formsOut(item[3], item[2], () => {
+                    item[2].remove()
+                })
                 e.preventDefault();
-                item[2].remove()
+
             });
 
             listsCreator.lists.forEach(list => { if (list.id === listsCreator.selectedListOption) { input.value = list.title } })
@@ -103,15 +159,29 @@ class appLogic {
 
     static showAdvertising() {
         const element = userInterface.showAdvertising('All Tasks');
-        element[0].addEventListener('click', () => { element[1].remove() });
+        animate.advertisingsIn(element[2], element[1]);
+        element[0].addEventListener('click', () => {
+            animate.advertisingsOut(element[2], element[1], () => { element[1].remove() });
+        });
     }
 
     static setNewIndex(container, dataAtribute, array, className) {
-        const nodeList = container.querySelectorAll(`.${className}`);
-        nodeList.forEach((node, index) => {
-            node.setAttribute(dataAtribute, index + 1);
-            array[index].id = index + 1;
-        });
+        if (listsCreator.listSelected === 1) {
+            array.forEach((task, index) => {
+                task.id = index + 1;
+            })
+            const nodeList = container.querySelectorAll(`.${className}`);
+            nodeList.forEach((node, index) => {
+                node.setAttribute(dataAtribute, index + 1);
+            });
+        } else {
+            const nodeList = container.querySelectorAll(`.${className}`);
+            nodeList.forEach((node, index) => {
+                node.setAttribute(dataAtribute, index + 1);
+                array[index].id = index + 1;
+            });
+        }
+
     }
 
     static showSettings() {

@@ -1,7 +1,9 @@
 import { userInterface } from './domCreation.js'
 import { listsCreator } from './listsCreator'
 import { appLogic } from './appLogic'
+import { animate } from './animations'
 import { format, parseISO, isAfter, isToday, isBefore, addDays } from 'date-fns'
+import autoAnimate from '@formkit/auto-animate'
 
 class tasksCreator {
 
@@ -35,31 +37,70 @@ class tasksCreator {
         // element 1 = deleteBtn
         // element 2 = moreInfoBtn
         // element 3 = inputCheckbox
+        // element 4 = checkboxCustom
+        // element 5 = titleTsk
         if (isToday(new Date(parseISO(date)))) {
             const taskPreviews = document.querySelector('#taskPreviews')
             const categoryDom = document.querySelector('#Today')
-            if (!taskPreviews.contains(categoryDom)) { userInterface.createTaskCategory('Today', 2) }
+            if (!taskPreviews.contains(categoryDom)) {
+                const elementsCategory = userInterface.createTaskCategory('Today', 2)
+                autoAnimate(elementsCategory[2], { duration: 300 })
+                animate.categoryIn(elementsCategory[0]);
+                elementsCategory[1].addEventListener('click', () => {
+                    elementsCategory[1].classList.toggle('up')
+                    elementsCategory[2].classList.toggle('h')
+                })
+            }
             start('Today')
         } else if (isBefore(new Date(parseISO(date)), new Date())) {
             const taskPreviews = document.querySelector('#taskPreviews')
             const categoryDom = document.querySelector('#Expired')
-            if (!taskPreviews.contains(categoryDom)) { userInterface.createTaskCategory('Expired', 1) }
+            if (!taskPreviews.contains(categoryDom)) {
+                const elementsCategory = userInterface.createTaskCategory('Expired', 1)
+                autoAnimate(elementsCategory[2], { duration: 300 })
+                animate.categoryIn(elementsCategory[0]);
+                elementsCategory[1].addEventListener('click', () => {
+                    elementsCategory[1].classList.toggle('up')
+                    elementsCategory[2].classList.toggle('h')
+                })
+            }
             start('Expired')
         } else if (isAfter(new Date(parseISO(date)), new Date()) && isBefore(new Date(parseISO(date)), addDays(new Date(), 1))) {
             const taskPreviews = document.querySelector('#taskPreviews')
             const categoryDom = document.querySelector('#Tomorrow')
-            if (!taskPreviews.contains(categoryDom)) { userInterface.createTaskCategory('Tomorrow', 3) }
+            if (!taskPreviews.contains(categoryDom)) {
+                const elementsCategory = userInterface.createTaskCategory('Tomorrow', 3)
+                autoAnimate(elementsCategory[2], { duration: 300 })
+                animate.categoryIn(elementsCategory[0]);
+                elementsCategory[1].addEventListener('click', () => {
+                    elementsCategory[1].classList.toggle('up')
+                    elementsCategory[2].classList.toggle('h')
+                })
+            }
             start('Tomorrow')
         } else if (isAfter(new Date(parseISO(date)), addDays(new Date(), 1))) {
             const taskPreviews = document.querySelector('#taskPreviews')
             const categoryDom = document.querySelector('#Upcoming')
-            if (!taskPreviews.contains(categoryDom)) { userInterface.createTaskCategory('Upcoming', 4) }
+            if (!taskPreviews.contains(categoryDom)) {
+                const elementsCategory = userInterface.createTaskCategory('Upcoming', 4)
+                autoAnimate(elementsCategory[2], { duration: 300 })
+                animate.categoryIn(elementsCategory[0]);
+                elementsCategory[1].addEventListener('click', () => {
+                    elementsCategory[1].classList.toggle('up')
+                    elementsCategory[2].classList.toggle('h')
+                })
+            }
             start('Upcoming')
         }
 
         function start(category) {
             const domElements = userInterface.createTasksDom(title, task.checked, category);
-            const taskIndex = (document.querySelectorAll('.tasks')).length
+
+
+
+
+            // animate.taskIn(domElements[5], domElements[4]);
+            const taskIndex = (document.querySelectorAll('.tasks')).length;
             task.domReference = domElements[0];
             task.domReference.setAttribute('data-indextask', taskIndex);
             task.id = taskIndex;
@@ -108,12 +149,16 @@ class tasksCreator {
     static deleteTask(task) {
         const parent = task.domReference.parentElement
         task.domReference.remove();
-        listsCreator.lists.forEach(list => {
-            if (list.id === listsCreator.listSelected) {
-                list.tasks.forEach(taskOfarray => { if (taskOfarray.id === task.id) { list.tasks.splice(list.tasks.indexOf(taskOfarray), 1); } })
-                appLogic.setNewIndex(document.querySelector('#taskPreviews'), 'data-indextask', list.tasks, 'tasks')
-            }
-        })
+        // listsCreator.lists.forEach(list => {
+        //     if (list.id === listsCreator.listSelected) {
+        //         list.tasks.forEach(taskOfarray => { if (taskOfarray.id === task.id) { list.tasks.splice(list.tasks.indexOf(taskOfarray), 1); } })
+        //         appLogic.setNewIndex(document.querySelector('#taskPreviews'), 'data-indextask', list.tasks, 'tasks')
+        //     }
+        // })
+
+        task.listObjReference.tasks.forEach(taskOfarray => { if (taskOfarray.id === task.id) { task.listObjReference.tasks.splice(task.listObjReference.tasks.indexOf(taskOfarray), 1); } })
+        appLogic.setNewIndex(document.querySelector('#taskPreviews'), 'data-indextask', task.listObjReference.tasks, 'tasks')
+
         if (parent.childNodes.length === 0) { parent.parentElement.remove() }
     }
 

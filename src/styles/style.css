@@ -33,6 +33,7 @@
 /* width */
 ::-webkit-scrollbar {
     width: 5px;
+    position: absolute;
 }
 
 /* Track */
@@ -54,6 +55,14 @@
     box-sizing: border-box;
     color: var(--text-color);
     border-radius: 10px;
+}
+
+.up {
+    transform: rotate(180deg)
+}
+
+.showTasksBtn {
+    transition: transform ease-in-out 0.1s;
 }
 
 .calendarContainer {
@@ -84,6 +93,7 @@
     border: none !important;
     box-shadow: rgb(0 0 0 / 10%) 0px 2px 6px 0px;
     background-color: var(--module-color) !important;
+    transition: background-color 0.5s ease;
 }
 
 .toastui-calendar-see-more-container {
@@ -110,10 +120,12 @@
     background-color: rgb(var(--details-color)) !important;
     color: var(--module-color) !important;
     border-radius: 10px !important;
+    transition: background-color 0.5s ease;
 }
 
 .toastui-calendar-layout.toastui-calendar-month {
     background-color: transparent !important;
+    transition: background-color 0.5s ease;
 }
 
 .toastui-calendar-weekday-event {
@@ -125,6 +137,7 @@
     height: 24px !important;
     line-height: 24px !important;
     opacity: 1 !important;
+    transition: background-color 0.5s ease;
 }
 
 .toastui-calendar-weekday-event-title span {
@@ -145,8 +158,9 @@
     background-color: var(--background-color) !important;
     border-radius: 10px;
     border: none !important;
-    position: initial !important;
+    position: unset !important;
     flex: 1;
+    transition: background-color 0.5s ease;
 }
 
 .toastui-calendar-day-names.toastui-calendar-month {
@@ -172,6 +186,7 @@ body {
     height: 100vh;
     background-color: var(--background-color);
     gap: 20px;
+    transition: background-color 0.5s ease;
 }
 
 .btnContainer {
@@ -189,6 +204,7 @@ body {
     justify-content: space-between;
     gap: 40px;
     position: relative;
+    transition: background-color 0.5s ease;
 }
 
 .addTaskBtnContainer {
@@ -210,6 +226,7 @@ body {
     width: 200px;
     height: 50px;
     cursor: pointer;
+    transition: background-color 0.5s ease;
 }
 
 .menu {
@@ -232,6 +249,7 @@ body {
     font-weight: 600;
     text-align: center;
     filter: var(--shadow-element);
+    transition: background-color 0.5s ease;
 }
 
 .listsContentPreviewTasksContainerAllTask {
@@ -252,7 +270,9 @@ body {
     margin-inline: -20px;
     padding-inline: 20px;
     padding-bottom: 100px;
-    overflow: auto;
+    /* overflow-y: auto; */
+    overflow-y: overlay;
+    overflow-x: hidden;
 }
 
 .menuOptions {
@@ -263,11 +283,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    transition: background-color 0.5s ease;
 }
 
 .icons {
     width: 40px;
     color: rgb(var(--details-color));
+    transition: color 0.5s ease;
 }
 
 .inputRadio {
@@ -315,6 +337,7 @@ body {
     width: 50px;
     filter: var(--shadow-element);
     cursor: pointer;
+    transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 .list {
@@ -322,13 +345,49 @@ body {
     display: flex;
     height: fit-content;
     flex-direction: column;
-    background: linear-gradient(90deg, var(--module-color-secondary-2) 0%, var(--module-color) 100%);
     filter: var(--shadow-element);
     cursor: pointer;
+    position: relative;
+    gap: 25px;
 }
 
-.active {
-    background: linear-gradient(90deg, var(--module-color-secondary-2) 0%, var(--selected-option) 100%);
+.list::before {
+    content: ' ';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: -25px;
+    border-radius: 10px;
+    background-image: linear-gradient(90deg, var(--module-color-secondary-2) 0%, var(--module-color) 100%);
+    z-index: -2;
+}
+
+.list::after {
+    content: ' ';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: -25px;
+    border-radius: 10px;
+    background-image: linear-gradient(90deg, var(--module-color-secondary-2) 0%, var(--module-color) 100%);
+    z-index: -1;
+}
+
+.active::after {
+    background-image: linear-gradient(90deg, var(--module-color-secondary-2), var(--selected-option));
+    animation: activeAnimation 0.25s ease-in forwards;
+}
+
+@keyframes activeAnimation {
+    0% {
+        background-image: linear-gradient(90deg, var(--module-color-secondary-2), var(--selected-option));
+        opacity: 0;
+    }
+
+    100% {
+        background-image: linear-gradient(90deg, var(--module-color-secondary-2), var(--selected-option));
+        opacity: 1;
+    }
 }
 
 .activeTasksContainer {
@@ -466,10 +525,10 @@ body {
 .buttonSettings {
     justify-content: space-around;
     align-items: center;
-    margin-top: 25px;
+    /* margin-top: 25px; */
     height: 50px;
     overflow: hidden;
-    display: none;
+    display: flex;
 }
 
 .show {
@@ -709,10 +768,10 @@ body {
     background-color: transparent;
     border: none;
     cursor: pointer;
+    width: 35px;
 }
 
 .moreInfoBtns svg path {
-    width: 30px;
     stroke: rgb(var(--details-color));
 }
 
