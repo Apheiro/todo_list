@@ -6,12 +6,15 @@ import { createElement, createElementNS, createImg } from './createElements.js';
 
 class userInterface {
     static createPageDom() {
-        const menu = createElement('div', document.body, { class: 'menu' });
-        createElement('h2', menu, { class: 'titleOptions' }, 'My Lists');
+        const menuContainer = createElement('div', document.body, { class: 'menuContainer' });
+        const menu = createElement('div', menuContainer, { class: 'menu' });
+        const menuHeader = createElement('div', menu, { class: 'menuHeader' });
+        createElement('h2', menuHeader, { class: 'titleOptions' }, 'My Lists');
         const menuContent = createElement('div', menu, { class: 'menuContent', id: 'menuContent' });
+        const addListBtnContainer = createElement('div', menuContent, { class: 'addListBtnContainer' });
+        createElement('button', addListBtnContainer, { class: 'addListBtn', id: 'addListBtn' }, '+');
+
         const menuSelector = createElement('form', menu, { class: 'menuOptions' });
-
-
         const labelInputRatio0 = createElement('label', menuSelector, {});
         createElement('input', labelInputRatio0, { class: 'inputRadio', id: 'taskMenuInput', type: 'radio', name: 'menuOptions', checked: '' });
         const buttonMenuOption0 = createElement('div', labelInputRatio0, { class: 'menusBtn', id: 'taskMenuBtn' });
@@ -33,15 +36,12 @@ class userInterface {
         createElement('p', buttonMenuOption2, {}, 'Settings');
 
 
-        const addListBtnContainer = createElement('div', menuContent, { class: 'addListBtnContainer' });
-        createElement('button', addListBtnContainer, { class: 'addListBtn', id: 'addListBtn' }, '+');
+
+
         const listsContentPreview = createElement('div', document.body, { class: 'listsContentPreview', id: 'listsContentPreview' });
-        createElement('h2', listsContentPreview, { class: 'titleOptions', id: 'titleOfSelection' }, 'View');
+        const previewHeader = createElement('div', listsContentPreview, { class: 'previewHeader' });
+        createElement('h2', previewHeader, { class: 'titleOptions', id: 'titleOfSelection' }, 'View');
         const taskPreview = createElement('div', listsContentPreview, { class: 'taskPreviews', id: 'taskPreviews' });
-
-        // add task button
-
-        // add task button
     }
 
     static taskBtn() {
@@ -228,6 +228,27 @@ class userInterface {
         const btn3 = createElement('button', themeBtnsContainer, { class: 'themeBtns', id: 'theme3', style: 'background:#FF9B73; border: 10px solid #262c33; width: 82px; height: 54px; border-radius: 23px;cursor:pointer' });
         const btn4 = createElement('button', themeBtnsContainer, { class: 'themeBtns', id: 'theme4', style: 'background:#DAFF73; border: 10px solid #262c33; width: 82px; height: 54px; border-radius: 23px;cursor:pointer' });
         return [btn1, btn2, btn3, btn4]
+    }
+
+    static navigationBtns() {
+        const menuHeader = document.querySelector('.menuHeader');
+        const taskPreview = document.querySelector('#taskPreviews');
+        const listViewBtnContainer = createElement('div', taskPreview, { class: 'listViewBtnContainer' });
+        const listViewBtn = createElement('button', listViewBtnContainer, { class: 'listViewBtn', id: 'listViewBtn' }, null, `
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 6.878V6a2.25 2.25 0 012.25-2.25h7.5A2.25 2.25 0 0118 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 004.5 9v.878m13.5-3A2.25 2.25 0 0119.5 9v.878m0 0a2.246 2.246 0 00-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0121 12v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6c0-.98.626-1.813 1.5-2.122" />
+        </svg>
+        `);
+
+        const previewOfListBtnContainer = createElement('div', menuHeader, { class: 'previewOfListBtnContainer' });
+        const previewOfListBtn = createElement('button', previewOfListBtnContainer, { class: 'previewOfListBtn', id: 'previewOfListBtn' }, null, `
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+        </svg>
+        `);
+
+        return [listViewBtn, previewOfListBtn]
+
     }
 }
 

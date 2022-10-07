@@ -11,11 +11,11 @@ class appLogic {
         userInterface.createPageDom();
 
         const addListBtn = document.querySelector('#addListBtn')
-        const addTaskBtn = document.querySelector('#addTaskBtn');
         const menuOptionsBtns = document.querySelectorAll('.menusBtn')
-        const sadtest = document.querySelector('.titleOptions')
+        const showListObject = document.querySelector('.titleOptions')
+        const menuContainer = document.querySelector('.menuContainer')
 
-        sadtest.addEventListener('click', () => {
+        showListObject.addEventListener('click', () => {
             console.log(listsCreator.lists)
             console.log(listsCreator.listSelected)
         })
@@ -25,16 +25,19 @@ class appLogic {
         menuOptionsBtns.forEach(btn => btn.addEventListener('click', () => {
             setTimeout(() => {
                 if (btn.id == 'settingsMenuBtn') {
+                    menuContainer.classList.remove('open')
                     animate.contentOut(() => {
                         listsCreator.removePreviewElements('task');
                         listsCreator.removePreviewElements('category');
                         listsCreator.removePreviewElements('calendarContainer');
                         listsCreator.removePreviewElements('noLists');
                         listsCreator.showListContent(listsCreator.lists[0]);
+
                         animate.settingsIn();
                     })
 
                 } else {
+                    menuContainer.classList.remove('open')
                     animate.contentOut(() => {
                         listsCreator.removePreviewElements('task')
                         listsCreator.removePreviewElements('category')
@@ -44,11 +47,14 @@ class appLogic {
                         listsCreator.changeTitleOfViewMenu()
                         const list = listsCreator.lists[listsCreator.listSelected - 1];
                         if (list != null || list != undefined) { listsCreator.showListContent(list) };
+
+
                     })
                 }
             }, 0);
         }))
 
+        this.addBurgerMenu()
         listsCreator.createList('All Tasks')
         animate.interface()
     }
@@ -199,6 +205,30 @@ class appLogic {
 
         }
 
+    }
+
+    static addBurgerMenu() {
+        const page = document.querySelector('html');
+        const menu = document.querySelector('.menuContainer');
+        function add() {
+            const size = page.scrollWidth
+            if (size <= 1050 && document.querySelector('#listViewBtn') == undefined) {
+                console.log('in')
+                const btns = userInterface.navigationBtns()
+                btns[0].addEventListener('click', () => {
+                    menu.classList.add('open')
+                })
+                btns[1].addEventListener('click', () => {
+                    menu.classList.remove('open')
+                })
+            } else if (size > 1050 && document.querySelector('.listViewBtnContainer') != undefined) {
+                console.log('out')
+                document.querySelector('.listViewBtnContainer').remove()
+                document.querySelector('.previewOfListBtnContainer').remove()
+            }
+        }
+        add()
+        window.addEventListener('resize', add)
     }
 }
 

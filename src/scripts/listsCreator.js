@@ -3,7 +3,7 @@ import { tasksCreator } from './tasksCreator.js';
 import { appLogic } from './appLogic';
 import { animate } from './animations';
 import anime from 'animejs/lib/anime.es.js';
-import { parseISO } from 'date-fns';
+import { parseISO, format } from 'date-fns';
 import autoAnimate from '@formkit/auto-animate'
 
 import Calendar from '@toast-ui/calendar';
@@ -49,7 +49,7 @@ class listsCreator {
             duration: 100,
         })
         elements[0].addEventListener('click', () => {
-            const addTaskBtn = document.querySelector('#addTaskBtn');
+            // const addTaskBtn = document.querySelector('#addTaskBtn');
             this.showSelectList(newList);
             appLogic.taskBtnCreator();
             // if (this.listSelected > 1 && document.querySelector('#taskMenuInput').checked) { addTaskBtn.classList.remove('h') } else { addTaskBtn.classList.add('h') };
@@ -142,25 +142,30 @@ class listsCreator {
     }
 
     static deleteList(list) {
+
         list.domReference.remove();
         this.lists.forEach(element => { if (element.id === list.id) { this.lists.splice(this.lists.indexOf(element), 1); } })
         appLogic.setNewIndex(document.querySelector('#menuContent'), 'data-indexlist', this.lists, 'list')
         const allTasks = this.lists[0]
         allTasks.taskCompleted = allTasks.taskCompleted - list.taskCompleted;
         allTasks.tasksNumber = allTasks.tasksNumber - list.tasksNumber;
+
         if (list.id === this.listSelected) {
-            const addTaskBtn = document.querySelector('#addTaskBtn');
+            document.querySelector('.addTaskBtnContainer').remove()
+
             this.removePreviewElements('tasks')
             this.removePreviewElements('category')
-            addTaskBtn.classList.add('h');
             this.refreshDataList(allTasks);
             this.listSelected = null;
         }
+        // this.showListContent(this.lists[0]);
 
         this.changeTitleOfViewMenu();
-        // this.showListContent(this.lists[0]);
         this.refreshDataList(this.lists[0]);
         this.createListSuggestion();
+
+
+
     }
 
     static refreshDataList(list) {
@@ -239,6 +244,7 @@ class listsCreator {
                     }
                     list.calendar.render();
                     setTimeout(() => {
+
                         animate.calendarIn()
                     }, 0);
 
@@ -271,7 +277,7 @@ class listsCreator {
             const btn = userInterface.createListSuggestion()
             btn.addEventListener('click', () => {
                 this.createList('You new List!')
-                const addTaskBtn = document.querySelector('#addTaskBtn');
+                // const addTaskBtn = document.querySelector('#addTaskBtn');
                 this.listSelected = 1
                 this.lists[1].selected = true;
                 appLogic.taskBtnCreator();
@@ -289,10 +295,18 @@ class listsCreator {
 
                 this.refreshListSelected();
                 this.changeTitleOfViewMenu();
-                tasksCreator.createTask('dfgsdfgdfgs', 'Contexto', '2022-10-05');
-                tasksCreator.createTask('dfgsdfgdfgs', 'Contexto', '2022-10-01');
-                tasksCreator.createTask('dfgsdfgdfgs', 'Contexto', '2022-09-28');
-                tasksCreator.createTask('dfgsdfgdfgs', 'Contexto', '2022-10-02');
+                tasksCreator.createTask('test', 'Contexto', format(new Date(), 'yyyy-MM-dd'));
+                tasksCreator.createTask('test', 'Contexto', format(new Date(), 'yyyy-MM-dd'));
+                tasksCreator.createTask('test', 'Contexto', format(new Date(), 'yyyy-MM-dd'));
+                tasksCreator.createTask('test', 'Contexto', format(new Date(), 'yyyy-MM-dd'));
+                tasksCreator.createTask('test', 'Contexto', format(new Date(), 'yyyy-MM-dd'));
+                tasksCreator.createTask('test', 'Contexto', format(new Date(), 'yyyy-MM-dd'));
+                tasksCreator.createTask('test', 'Contexto', format(new Date(), 'yyyy-MM-dd'));
+                tasksCreator.createTask('test', 'Contexto', format(new Date(), 'yyyy-MM-dd'));
+                tasksCreator.createTask('test', 'Contexto', format(new Date(), 'yyyy-MM-dd'));
+                tasksCreator.createTask('test', 'Contexto', format(new Date(), 'yyyy-MM-dd'));
+                tasksCreator.createTask('test', 'Contexto', format(new Date(), 'yyyy-MM-dd'));
+                tasksCreator.createTask('test', 'Contexto', format(new Date(), 'yyyy-MM-dd'));
                 this.removePreviewElements('task')
                 this.removePreviewElements('category')
                 this.showSelectList(this.lists[1]);
