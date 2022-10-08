@@ -1061,6 +1061,12 @@ screen and (max-height: 720px) {
         height: 100%;
     }
 
+    .listsContentPreview {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
     .list {
         padding: 15px;
     }
