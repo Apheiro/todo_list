@@ -35,9 +35,6 @@ class userInterface {
         7.614 0 000-1.139c-.016-.2.059-.352.153-.43l.84-.692c.708-.582.891-1.59.433-2.385l-.922-1.597a1.875 1.875 0 00-2.282-.818l-1.02.382c-.114.043-.282.031-.449-.083a7.49 7.49 0 00-.985-.57c-.183-.087-.277-.227-.297-.348l-.179-1.072a1.875 1.875 0 00-1.85-1.567h-1.843zM12 15.75a3.75 3.75 0 100-7.5 3.75 3.75 0 000 7.5z" clip-rule="evenodd"/>`);
         createElement('p', buttonMenuOption2, {}, 'Settings');
 
-
-
-
         const listsContentPreview = createElement('div', document.body, { class: 'listsContentPreview', id: 'listsContentPreview' });
         const previewHeader = createElement('div', listsContentPreview, { class: 'previewHeader' });
         createElement('h2', previewHeader, { class: 'titleOptions', id: 'titleOfSelection' }, 'View');
@@ -60,14 +57,6 @@ class userInterface {
         createElement('h2', titleAndTasksContainer, { class: 'titleOfList' }, `${title}`);
         createElement('p', titleAndTasksContainer, { class: 'TasksOfList' }, `${tasksNumber} Tasks`);
         createElement('p', firstLine, { class: 'TasksCompletedOfList' }, `${tasksCompleted} Completed`);
-
-        // if (title != 'All Tasks') {
-        //     const buttonSettings = createElement('div', list, { class: 'buttonSettings' });
-        //     const editButton = createElement('button', buttonSettings, { class: 'editButton', id: 'editButton' }, 'edit');
-        //     const deleteButton = createElement('button', buttonSettings, { class: 'deleteButton', id: 'deleteButton' }, 'delete');
-        //     const elements = [list, buttonSettings, editButton, deleteButton, initialIndex]
-        //     return elements
-        // }
 
         const elements = [list, null, null, null, initialIndex]
         return elements
@@ -197,7 +186,7 @@ class userInterface {
         createElement('h4', titleOfInfoTask, { class: 'dateTitleDescription' }, `${date}`);
         createElement('h2', titleOfInfoTask, { class: 'taskTitleDescription' }, `${title}`);
         createElement('p', info, { class: 'descriptionMoreInfo' }, `${description}`);
-        const elements = [background, closeInfoBtn, editInfoBtn];
+        const elements = [background, closeInfoBtn, editInfoBtn, info];
         return elements;
     }
 

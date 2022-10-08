@@ -1,7 +1,5 @@
 import anime from 'animejs/lib/anime.es.js';
 
-// /home/eyen_pc / the_odin_project / todo_list / node_modules / animejs / lib / anime.es.js
-
 class animate {
     static interface() {
         anime({
@@ -53,11 +51,9 @@ class animate {
             easing: 'easeInOutExpo',
             opacity: [0, 1],
             scale: [1.2, 1],
-            delay: anime.stagger(100, { start: 800 }),
+            duration: 600,
+            delay: anime.stagger(50, { start: 900 }),
         });
-
-
-
     }
 
     static addList(dom) {
@@ -71,6 +67,7 @@ class animate {
     }
 
     static deleteList(dom, fn) {
+        dom.style = 'pointer-events: none;'
         const animation = anime({
             targets: dom,
             easing: 'easeInOutExpo',
@@ -78,6 +75,7 @@ class animate {
             scale: [1, 0.8],
             duration: 500
         });
+
         animation.finished.then(fn)
     }
 
@@ -100,6 +98,7 @@ class animate {
     }
 
     static formsOut(domForm, domBackground, fn) {
+        domForm.style = 'pointer-events: none;'
         anime({
             targets: domForm,
             easing: 'easeInOutExpo',
@@ -107,6 +106,7 @@ class animate {
             scale: [1, 1.05],
             duration: 300,
         });
+
         const animation = anime({
             targets: domBackground,
             easing: 'easeInOutExpo',
@@ -114,6 +114,7 @@ class animate {
             duration: 400,
             delay: 100
         });
+
         animation.finished.then(fn);
     }
 
@@ -136,6 +137,7 @@ class animate {
     }
 
     static advertisingsOut(dom, domBackground, fn) {
+        dom.style = 'pointer-events: none;'
         anime({
             targets: dom,
             easing: 'easeInOutExpo',
@@ -143,6 +145,7 @@ class animate {
             scale: [1, 1.05],
             duration: 300,
         });
+
         const animation = anime({
             targets: domBackground,
             easing: 'easeInOutExpo',
@@ -150,6 +153,7 @@ class animate {
             duration: 400,
             delay: 100
         });
+
         animation.finished.then(fn);
     }
 
@@ -162,6 +166,7 @@ class animate {
             duration: 200,
 
         });
+
         anime({
             targets: domLabel,
             easing: 'easeInOutExpo',
@@ -182,33 +187,6 @@ class animate {
         });
     }
 
-    // static tasksIn() {
-    //     anime({
-    //         targets: '.tasks h3',
-    //         easing: 'easeInOutExpo',
-    //         opacity: [0, 1],
-    //         scale: [0.8, 1],
-    //         duration: 600,
-
-    //     });
-    //     anime({
-    //         targets: '.tasks label',
-    //         easing: 'easeInOutExpo',
-    //         opacity: [0, 1],
-    //         scale: [0.8, 1],
-    //         duration: 400,
-
-    //     });
-
-    //     anime({
-    //         targets: '.categoryHeader h2',
-    //         easing: 'easeInOutExpo',
-    //         opacity: [0, 1],
-    //         scale: [0.8, 1],
-    //         duration: 400,
-    //     });
-    // }
-
     static calendarIn() {
         anime({
             targets: '.toastui-calendar-daygrid-cell',
@@ -218,6 +196,7 @@ class animate {
             duration: 600,
             delay: anime.stagger(10),
         });
+
         anime({
             targets: '.toastui-calendar-template-monthDayName',
             easing: 'easeInOutExpo',
@@ -226,6 +205,7 @@ class animate {
             duration: 600,
             delay: anime.stagger(10),
         });
+
         anime({
             targets: '.toastui-calendar-weekday-event-block',
             easing: 'easeInOutExpo',
@@ -235,6 +215,7 @@ class animate {
             delay: anime.stagger(10, { start: 200 }),
         });
     }
+
     static settingsIn() {
         anime({
             targets: '.settingsContainer',
@@ -246,14 +227,15 @@ class animate {
     }
 
     static contentOut(fn) {
+
         anime({
             targets: '.tasks h3',
             easing: 'easeInOutExpo',
             opacity: [1, 0],
             scale: [1, 0.8],
             duration: 200,
-
         });
+
         anime({
             targets: '.tasks label',
             easing: 'easeInOutExpo',
@@ -278,6 +260,7 @@ class animate {
             duration: 200,
             delay: anime.stagger(10),
         });
+
         anime({
             targets: '.toastui-calendar-template-monthDayName',
             easing: 'easeInOutExpo',
@@ -286,6 +269,7 @@ class animate {
             duration: 300,
             delay: anime.stagger(10),
         });
+
         anime({
             targets: '.toastui-calendar-weekday-event-block',
             easing: 'easeInOutExpo',
@@ -305,6 +289,7 @@ class animate {
 
         animation.finished.then(fn);
     }
+
     static addTaskIn() {
         anime({
             targets: '.addTaskBtnContainer',
@@ -314,6 +299,7 @@ class animate {
             duration: 400,
         });
     }
+
     static addTaskOut(fn) {
         const animation = anime({
             targets: '.addTaskBtnContainer',
@@ -333,8 +319,10 @@ class animate {
             height: resize,
             duration: 250,
         });
+
         animation.finished.then(fn);
     }
+
     static showBtnsListOut(dom, fn, resize) {
         const animation = anime({
             targets: dom,
@@ -342,7 +330,34 @@ class animate {
             height: resize,
             duration: 150,
         });
+
         animation.finished.then(fn);
+    }
+
+    static showTaskOptions(dom) {
+        const animation = anime({
+            targets: dom,
+            easing: 'easeInOutExpo',
+            opacity: [0, 1],
+            scale: [0.8, 1],
+            duration: 400,
+            autoplay: false
+        });
+
+        return animation
+    }
+    static hiddeTaskOptions(dom, fn) {
+        const animation = anime({
+            targets: dom,
+            easing: 'easeInOutExpo',
+            opacity: [1, 0],
+            scale: [1, 0.8],
+            duration: 400,
+            complete: fn,
+            autoplay: false
+        });
+
+        return animation
     }
 }
 

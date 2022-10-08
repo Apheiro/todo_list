@@ -3,6 +3,7 @@ import { listsCreator } from './listsCreator'
 import { appLogic } from './appLogic'
 import { animate } from './animations'
 import { format, parseISO, isAfter, isToday, isBefore, addDays } from 'date-fns'
+import { parse, stringify, toJSON, fromJSON } from 'flatted';
 import autoAnimate from '@formkit/auto-animate'
 
 class tasksCreator {
@@ -13,7 +14,7 @@ class tasksCreator {
         this.date = date;
         this.checked = false
         this.domReference;
-        this.listObjReference;
+        // this.listObjReference;
         this.id;
     }
 
@@ -26,10 +27,12 @@ class tasksCreator {
                 list.tasks.push(newTask);
                 list.tasksNumber = list.tasks.length;
                 listsCreator.refreshDataList(list)
-                newTask.listObjReference = list;
+                // newTask.listObjReference = list;
                 this.refreshAllTasksValues()
             }
         });
+        localStorage.setItem('lists', stringify(listsCreator.lists))
+        return newTask
     }
 
     static createTaskDom(title, task, date) {
@@ -95,19 +98,26 @@ class tasksCreator {
 
         function start(category) {
             const domElements = userInterface.createTasksDom(title, task.checked, category);
-
-
-
-
             // animate.taskIn(domElements[5], domElements[4]);
             const taskIndex = (document.querySelectorAll('.tasks')).length;
             task.domReference = domElements[0];
             task.domReference.setAttribute('data-indextask', taskIndex);
             task.id = taskIndex;
-            domElements[0].addEventListener('mouseover', () => { domElements[0].querySelector('.taskBtnsGroup').classList.add('show') });
-            domElements[0].addEventListener('mouseout', () => { domElements[0].querySelector('.taskBtnsGroup').classList.remove('show') });
+            const animationIn = animate.showTaskOptions(domElements[0].querySelector('.taskBtnsGroup'))
+            const animationOut = animate.hiddeTaskOptions(domElements[0].querySelector('.taskBtnsGroup'), () => { domElements[0].querySelector('.taskBtnsGroup').classList.remove('show') })
+            domElements[0].addEventListener('mouseenter', () => {
+                domElements[0].querySelector('.taskBtnsGroup').classList.add('show')
+                animationIn.play()
+            });
+            domElements[0].addEventListener('mouseleave', () => { animationOut.play() });
             domElements[2].addEventListener('click', () => { tasksCreator.showTaskInfo(task) });
-            domElements[3].addEventListener('change', () => { tasksCreator.refreshListValues(task, domElements[3]) });
+            domElements[3].addEventListener('change', () => {
+                tasksCreator.refreshListValues(task, domElements[3])
+                // setTimeout(() => {
+                localStorage.setItem('lists', stringify(listsCreator.lists))
+
+                // }, 0);
+            });
             domElements[1].addEventListener('click', () => {
                 tasksCreator.deleteTask(task)
                 tasksCreator.refreshListValues(task, domElements[3])
@@ -118,9 +128,22 @@ class tasksCreator {
 
     }
 
+    static listSelect() {
+        let listSel;
+        listsCreator.lists.forEach(list => {
+            if (list.id == listsCreator.listSelected) {
+                listSel = list
+            }
+        })
+        return listSel
+    }
+
     static refreshListValues(task, input) {
         task.checked = input.checked;
-        const listObj = task.listObjReference
+        // const listObj = task.listObjReference
+
+        const listObj = this.listSelect()
+
         function countChecked() {
             let checked = 0
             listObj.tasks.forEach(task => { if (task.checked === true) { checked++ } })
@@ -148,25 +171,32 @@ class tasksCreator {
 
     static deleteTask(task) {
         const parent = task.domReference.parentElement
+        const listSelected = this.listSelect()
+
         task.domReference.remove();
+        listSelected.tasks.forEach(taskOfarray => { if (taskOfarray.id === task.id) { listSelected.tasks.splice(listSelected.tasks.indexOf(taskOfarray), 1); } })
+        appLogic.setNewIndex(document.querySelector('#taskPreviews'), 'data-indextask', listSelected.tasks, 'tasks')
+
         // listsCreator.lists.forEach(list => {
         //     if (list.id === listsCreator.listSelected) {
         //         list.tasks.forEach(taskOfarray => { if (taskOfarray.id === task.id) { list.tasks.splice(list.tasks.indexOf(taskOfarray), 1); } })
         //         appLogic.setNewIndex(document.querySelector('#taskPreviews'), 'data-indextask', list.tasks, 'tasks')
         //     }
         // })
-
-        task.listObjReference.tasks.forEach(taskOfarray => { if (taskOfarray.id === task.id) { task.listObjReference.tasks.splice(task.listObjReference.tasks.indexOf(taskOfarray), 1); } })
-        appLogic.setNewIndex(document.querySelector('#taskPreviews'), 'data-indextask', task.listObjReference.tasks, 'tasks')
+        // task.listObjReference.tasks.forEach(taskOfarray => { if (taskOfarray.id === task.id) { task.listObjReference.tasks.splice(task.listObjReference.tasks.indexOf(taskOfarray), 1); } })
 
         if (parent.childNodes.length === 0) { parent.parentElement.remove() }
+        localStorage.setItem('lists', stringify(listsCreator.lists))
+
     }
 
     static showTaskInfo(task) {
         // element 0 = background
         // element 1 = closeInfoBtn
         // element 2 = editInfoBtn
+        // element 3 = infoTask
         const domElements = userInterface.taskInfoDom(task.title, task.description, format(new Date(parseISO(task.date)), 'PPPP'));
+        animate.formsIn(domElements[3], domElements[0]);
         domElements[1].addEventListener('click', () => {
             domElements[0].remove();
         })
@@ -194,12 +224,13 @@ class tasksCreator {
             domElementsEdit[5].style.height = domElementsEdit[5].scrollHeight + "px";
             domElementsEdit[1].addEventListener('click', (e) => {
                 if (domElementsEdit[3].value !== '' && domElementsEdit[4].value !== '') {
+                    const listSelected = this.listSelect()
                     task.date = domElementsEdit[3].value;
                     task.title = domElementsEdit[4].value;
                     task.description = domElementsEdit[5].value;
                     this.refreshDataTask(task)
                     this.showTaskInfo(task)
-                    listsCreator.showSelectList(task.listObjReference)
+                    listsCreator.showSelectList(listSelected)
                     domElementsEdit[0].remove()
                     e.preventDefault();
                 }

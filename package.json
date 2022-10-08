@@ -47,6 +47,7 @@
     "fast-json-stable-stringify": "^2.1.0",
     "fastest-levenshtein": "^1.0.14",
     "find-up": "^4.1.0",
+    "flatted": "^3.2.7",
     "function-bind": "^1.1.1",
     "glob-to-regexp": "^0.4.1",
     "graceful-fs": "^4.2.10",

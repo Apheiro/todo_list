@@ -2,26 +2,26 @@ import { userInterface } from './domCreation.js'
 import { listsCreator } from './listsCreator'
 import { tasksCreator } from './tasksCreator'
 import { animate } from './animations'
-
+import { parse, stringify, toJSON, fromJSON } from 'flatted';
 
 
 class appLogic {
 
     static start() {
         userInterface.createPageDom();
+        listsCreator.createList('All Tasks');
+        this.createFromLocalStorage()
 
-        const addListBtn = document.querySelector('#addListBtn')
-        const menuOptionsBtns = document.querySelectorAll('.menusBtn')
-        const showListObject = document.querySelector('.titleOptions')
-        const menuContainer = document.querySelector('.menuContainer')
-
+        const addListBtn = document.querySelector('#addListBtn');
+        const menuOptionsBtns = document.querySelectorAll('.menusBtn');
+        const showListObject = document.querySelector('.titleOptions');
+        const menuContainer = document.querySelector('.menuContainer');
         showListObject.addEventListener('click', () => {
             console.log(listsCreator.lists)
             console.log(listsCreator.listSelected)
-        })
+        });
 
         addListBtn.addEventListener('click', () => { this.showForm('addList') });
-
         menuOptionsBtns.forEach(btn => btn.addEventListener('click', () => {
             setTimeout(() => {
                 if (btn.id == 'settingsMenuBtn') {
@@ -32,7 +32,6 @@ class appLogic {
                         listsCreator.removePreviewElements('calendarContainer');
                         listsCreator.removePreviewElements('noLists');
                         listsCreator.showListContent(listsCreator.lists[0]);
-
                         animate.settingsIn();
                     })
 
@@ -47,16 +46,13 @@ class appLogic {
                         listsCreator.changeTitleOfViewMenu()
                         const list = listsCreator.lists[listsCreator.listSelected - 1];
                         if (list != null || list != undefined) { listsCreator.showListContent(list) };
-
-
                     })
                 }
             }, 0);
-        }))
+        }));
 
-        this.addBurgerMenu()
-        listsCreator.createList('All Tasks')
-        animate.interface()
+        this.addBurgerMenu();
+        animate.interface();
     }
 
     static taskBtnCreator() {
@@ -72,16 +68,13 @@ class appLogic {
                 animate.addTaskOut(() => {
                     document.querySelector('.addTaskBtnContainer').remove()
                 })
-
             }
-
         }
     }
 
     static showForm(form) {
         const item = userInterface.createForm(form)
         animate.formsIn(item[3], item[2])
-
         //item 0 = accept btn
         //item 1 = cancel btn
         //item 2 = background contains form
@@ -197,14 +190,32 @@ class appLogic {
         if (document.querySelector('.settingsContainer') == undefined) {
             const themeBtns = userInterface.settingsDom();
             themeBtns.forEach(btn => {
-                if (btn.id === 'theme1') { btn.addEventListener('click', () => { root.style = '--background-color: #D4D4D4;--module-color: #F0F0F0;--module-color-secondary: #ffffff;--module-color-secondary-2: #ffffff;--selected-option: #CDCAFF;--details-color: 119, 110, 255;--text-color: #717171;'; }) }
-                else if (btn.id === 'theme2') { btn.addEventListener('click', () => { root.style = '--background-color: #202329;--module-color: #262c33;--module-color-secondary: #2b3138;--module-color-secondary-2: #323a43;--selected-option: #343068;--details-color: 119, 110, 255;--text-color: #C4BDF0;'; }) }
-                else if (btn.id === 'theme3') { btn.addEventListener('click', () => { root.style = '--background-color: #202329;--module-color: #262c33;--module-color-secondary: #2b3138;--module-color-secondary-2: #323a43;--selected-option: #553629;--details-color: 255, 154, 115;--text-color: #f0dabd;'; }) }
-                else if (btn.id === 'theme4') { btn.addEventListener('click', () => { root.style = '--background-color: #202329;--module-color: #262c33;--module-color-secondary: #2b3138;--module-color-secondary-2: #323a43;--selected-option: #425529;--details-color: 218, 255, 115;--text-color: #daf0bd;'; }) }
+                if (btn.id === 'theme1') {
+                    btn.addEventListener('click', () => {
+                        root.style = '--background-color: #D4D4D4;--module-color: #F0F0F0;--module-color-secondary: #ffffff;--module-color-secondary-2: #ffffff;--selected-option: #CDCAFF;--details-color: 119, 110, 255;--text-color: #717171;';
+                        localStorage.setItem('theme', 'theme1');
+                    })
+                }
+                else if (btn.id === 'theme2') {
+                    btn.addEventListener('click', () => {
+                        root.style = '--background-color: #202329;--module-color: #262c33;--module-color-secondary: #2b3138;--module-color-secondary-2: #323a43;--selected-option: #343068;--details-color: 119, 110, 255;--text-color: #C4BDF0;';
+                        localStorage.setItem('theme', 'theme2');
+                    })
+                }
+                else if (btn.id === 'theme3') {
+                    btn.addEventListener('click', () => {
+                        root.style = '--background-color: #202329;--module-color: #262c33;--module-color-secondary: #2b3138;--module-color-secondary-2: #323a43;--selected-option: #553629;--details-color: 255, 154, 115;--text-color: #f0dabd;';
+                        localStorage.setItem('theme', 'theme3');
+                    })
+                }
+                else if (btn.id === 'theme4') {
+                    btn.addEventListener('click', () => {
+                        root.style = '--background-color: #202329;--module-color: #262c33;--module-color-secondary: #2b3138;--module-color-secondary-2: #323a43;--selected-option: #425529;--details-color: 218, 255, 115;--text-color: #daf0bd;';
+                        localStorage.setItem('theme', 'theme4');
+                    })
+                }
             })
-
         }
-
     }
 
     static addBurgerMenu() {
@@ -229,6 +240,44 @@ class appLogic {
         }
         add()
         window.addEventListener('resize', add)
+    }
+
+    static createFromLocalStorage() {
+        if (JSON.parse(localStorage.getItem('lists')) != null) {
+            const items = parse(localStorage.getItem('lists'));
+            // const items = JSON.parse(localStorage.getItem('lists'));
+            const theme = localStorage.getItem('theme');
+            const root = document.querySelector(':root');
+            if (theme === 'theme1') {
+                root.style = '--background-color: #D4D4D4;--module-color: #F0F0F0;--module-color-secondary: #ffffff;--module-color-secondary-2: #ffffff;--selected-option: #CDCAFF;--details-color: 119, 110, 255;--text-color: #717171;';
+            } else if (theme === 'theme2') {
+                root.style = '--background-color: #202329;--module-color: #262c33;--module-color-secondary: #2b3138;--module-color-secondary-2: #323a43;--selected-option: #343068;--details-color: 119, 110, 255;--text-color: #C4BDF0;';
+            } else if (theme === 'theme3') {
+                root.style = '--background-color: #202329;--module-color: #262c33;--module-color-secondary: #2b3138;--module-color-secondary-2: #323a43;--selected-option: #553629;--details-color: 255, 154, 115;--text-color: #f0dabd;';
+            } else if (theme === 'theme4') {
+                root.style = '--background-color: #202329;--module-color: #262c33;--module-color-secondary: #2b3138;--module-color-secondary-2: #323a43;--selected-option: #425529;--details-color: 218, 255, 115;--text-color: #daf0bd;';
+            }
+
+            items.forEach(list => {
+                if (list.title === 'All Tasks') {
+                    return
+                } else {
+                    listsCreator.createList(list.title)
+                    listsCreator.listSelected = list.id;
+                    list.tasks.forEach(task => {
+                        const taskCreated = tasksCreator.createTask(task.title, task.description, task.date);
+                        tasksCreator.refreshListValues(taskCreated, task)
+                        taskCreated.checked = task.checked
+                    })
+                    listsCreator.removePreviewElements('category');
+                    listsCreator.removePreviewElements('tasks');
+                    listsCreator.listSelected = null
+
+
+
+                }
+            })
+        }
     }
 }
 

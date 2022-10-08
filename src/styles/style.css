@@ -915,6 +915,10 @@ body {
     opacity: 1 !important;
 }
 
+.overTask {
+    background: #00000012;
+}
+
 @media screen and (max-width: 1280px),
 screen and (max-height: 720px) {
     .titleOptions {
