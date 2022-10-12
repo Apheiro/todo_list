@@ -3,6 +3,7 @@ import { listsCreator } from './listsCreator'
 import { tasksCreator } from './tasksCreator'
 import { animate } from './animations'
 import { parse, stringify, toJSON, fromJSON } from 'flatted';
+import autoAnimate from '@formkit/auto-animate'
 
 
 class appLogic {
@@ -10,6 +11,8 @@ class appLogic {
     static start() {
         userInterface.createPageDom();
         listsCreator.createList('All Tasks');
+        const menuContent = document.querySelector('.menuContent');
+        autoAnimate(menuContent, { duration: 300, })
         this.createFromLocalStorage()
 
         const addListBtn = document.querySelector('#addListBtn');
@@ -53,6 +56,7 @@ class appLogic {
 
         this.addBurgerMenu();
         animate.interface();
+
     }
 
     static taskBtnCreator() {

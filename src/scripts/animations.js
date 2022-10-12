@@ -28,14 +28,14 @@ class animate {
             delay: 300
         });
 
-        anime({
-            targets: '.addListBtn',
-            easing: 'easeInOutExpo',
-            opacity: [0, 1],
-            scale: [1.1, 1],
-            duration: 1000,
-            delay: 400
-        });
+        // anime({
+        //     targets: '.addListBtn',
+        //     easing: 'easeInOutExpo',
+        //     opacity: [0, 1],
+        //     scale: [1.1, 1],
+        //     duration: 1000,
+        //     delay: 400
+        // });
 
         anime({
             targets: '.menusBtn',
@@ -46,14 +46,14 @@ class animate {
             delay: anime.stagger(100, { start: 800 }),
         });
 
-        anime({
-            targets: '.list',
-            easing: 'easeInOutExpo',
-            opacity: [0, 1],
-            scale: [1.2, 1],
-            duration: 600,
-            delay: anime.stagger(50, { start: 900 }),
-        });
+        // anime({
+        //     targets: '.list',
+        //     easing: 'easeInOutExpo',
+        //     opacity: [0, 1],
+        //     scale: [1.2, 1],
+        //     duration: 300,
+        //     delay: anime.stagger(50, { start: 900 }),
+        // });
     }
 
     static addList(dom) {

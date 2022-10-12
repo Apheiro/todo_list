@@ -237,7 +237,7 @@ body {
 }
 
 .menuContainer {
-    transition: transform 0.5s cubic-bezier(0.25, 0, 0, 0.99), opacity 1s cubic-bezier(0.25, 0, 0, 0.99);
+    transition: transform 0.5s cubic-bezier(0.25, 0, 0, 0.99);
     flex: 1;
     background-color: transparent;
 }
@@ -912,7 +912,6 @@ body {
 
 .open {
     transform: translateX(0%) !important;
-    opacity: 1 !important;
 }
 
 .overTask {
@@ -1051,20 +1050,19 @@ screen and (max-height: 720px) {
     }
 
     .menuContainer {
-        position: absolute;
+        /* position: absolute; */
         z-index: 1;
         transform: translateX(-100%);
         left: 0;
         top: 0;
-        opacity: 0.6;
-        width: 100%;
-        height: 100%;
+        width: 100vw;
+        height: 100vh;
     }
 
     .listsContentPreview {
         position: absolute;
-        width: 100%;
-        height: 100%;
+        width: 100vw;
+        height: 100vh;
     }
 
     .list {

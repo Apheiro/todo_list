@@ -32,7 +32,7 @@ class listsCreator {
         //element 4 = index
         const newList = new listsCreator(title);
         const elements = userInterface.createListDom(newList.title, newList.tasksNumber, newList.taskCompleted);
-        animate.addList(elements[0])
+        // animate.addList(elements[0])
         newList.calendar = new Calendar(null, {
             defaultView: 'month',
             isReadOnly: true,
@@ -45,9 +45,7 @@ class listsCreator {
         newList.domReferenceTitle = document.querySelector('#titleOfSelection');
         newList.id = elements[4];
         this.lists.push(newList);
-        autoAnimate(elements[0], {
-            duration: 100,
-        })
+        autoAnimate(elements[0], { duration: 200 })
         elements[0].addEventListener('click', () => {
             this.showSelectList(newList);
             appLogic.taskBtnCreator();
@@ -70,6 +68,7 @@ class listsCreator {
             elements[0].addEventListener('mouseleave', (e) => {
                 elements[0].querySelectorAll('.buttonSettings').forEach(element => element.remove())
             });
+
             localStorage.setItem('lists', stringify(this.lists))
             // localStorage.setItem('lists', JSON.stringify(this.lists))
             // ERROR 
