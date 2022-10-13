@@ -32,7 +32,6 @@ class listsCreator {
         //element 4 = index
         const newList = new listsCreator(title);
         const elements = userInterface.createListDom(newList.title, newList.tasksNumber, newList.taskCompleted);
-        // animate.addList(elements[0])
         newList.calendar = new Calendar(null, {
             defaultView: 'month',
             isReadOnly: true,
@@ -70,7 +69,6 @@ class listsCreator {
             });
 
             localStorage.setItem('lists', stringify(this.lists))
-            // localStorage.setItem('lists', JSON.stringify(this.lists))
             // ERROR 
         }
         this.createListSuggestion()
@@ -114,21 +112,24 @@ class listsCreator {
             document.querySelector('.addTaskBtnContainer').remove()
             this.removePreviewElements('tasks')
             this.removePreviewElements('category')
-            this.refreshDataList(allTasks);
+            this.refreshDataList();
             this.listSelected = null;
         }
 
         this.changeTitleOfViewMenu();
-        this.refreshDataList(this.lists[0]);
+        this.refreshDataList();
         this.createListSuggestion();
         localStorage.setItem('lists', stringify(this.lists))
     }
 
-    static refreshDataList(list) {
-        const ListSelected = list.domReference;
-        ListSelected.querySelector('.titleOfList').innerText = `${list.title}`;
-        ListSelected.querySelector('.TasksOfList').innerText = `${list.tasksNumber} Tasks`;
-        ListSelected.querySelector('.TasksCompletedOfList').innerText = `${list.taskCompleted} Completed`;
+    static refreshDataList() {
+        this.lists.forEach(list => {
+            const ListSelected = list.domReference;
+            ListSelected.querySelector('.titleOfList').innerText = `${list.title}`;
+            ListSelected.querySelector('.TasksOfList').innerText = `${list.tasksNumber} Tasks`;
+            ListSelected.querySelector('.TasksCompletedOfList').innerText = `${list.taskCompleted} Completed`;
+        })
+
     }
 
     static showSelectList(list) {

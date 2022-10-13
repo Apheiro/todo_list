@@ -68,7 +68,6 @@ class appLogic {
             }
         } else {
             if (document.querySelector('.addTaskBtnContainer') != undefined) {
-                console.log('test')
                 animate.addTaskOut(() => {
                     document.querySelector('.addTaskBtnContainer').remove()
                 })
@@ -138,7 +137,8 @@ class appLogic {
                         listsCreator.lists.forEach(element => {
                             if (element.id === listsCreator.selectedListOption) {
                                 element.title = input.value
-                                listsCreator.refreshDataList(element)
+                                // listsCreator.refreshDataList(element)
+                                listsCreator.refreshDataList()
                             }
                         })
                         listsCreator.changeTitleOfViewMenu()
@@ -228,7 +228,6 @@ class appLogic {
         function add() {
             const size = page.scrollWidth
             if (size <= 1050 && document.querySelector('#listViewBtn') == undefined) {
-                console.log('in')
                 const btns = userInterface.navigationBtns()
                 btns[0].addEventListener('click', () => {
                     menu.classList.add('open')
@@ -237,7 +236,6 @@ class appLogic {
                     menu.classList.remove('open')
                 })
             } else if (size > 1050 && document.querySelector('.listViewBtnContainer') != undefined) {
-                console.log('out')
                 document.querySelector('.listViewBtnContainer').remove()
                 document.querySelector('.previewOfListBtnContainer').remove()
             }
@@ -249,7 +247,6 @@ class appLogic {
     static createFromLocalStorage() {
         if (JSON.parse(localStorage.getItem('lists')) != null) {
             const items = parse(localStorage.getItem('lists'));
-            // const items = JSON.parse(localStorage.getItem('lists'));
             const theme = localStorage.getItem('theme');
             const root = document.querySelector(':root');
             if (theme === 'theme1') {
@@ -258,9 +255,7 @@ class appLogic {
                 root.style = '--background-color: #202329;--module-color: #262c33;--module-color-secondary: #2b3138;--module-color-secondary-2: #323a43;--selected-option: #343068;--details-color: 119, 110, 255;--text-color: #C4BDF0;';
             } else if (theme === 'theme3') {
                 root.style = '--background-color: #202329;--module-color: #262c33;--module-color-secondary: #2b3138;--module-color-secondary-2: #323a43;--selected-option: #553629;--details-color: 255, 154, 115;--text-color: #f0dabd;';
-            } else if (theme === 'theme4') {
-                root.style = '--background-color: #202329;--module-color: #262c33;--module-color-secondary: #2b3138;--module-color-secondary-2: #323a43;--selected-option: #425529;--details-color: 218, 255, 115;--text-color: #daf0bd;';
-            }
+            } else if (theme === 'theme4') { root.style = '--background-color: #202329;--module-color: #262c33;--module-color-secondary: #2b3138;--module-color-secondary-2: #323a43;--selected-option: #425529;--details-color: 218, 255, 115;--text-color: #daf0bd;'; }
 
             items.forEach(list => {
                 if (list.title === 'All Tasks') {
@@ -276,9 +271,7 @@ class appLogic {
                     listsCreator.removePreviewElements('category');
                     listsCreator.removePreviewElements('tasks');
                     listsCreator.listSelected = null
-
-
-
+                    localStorage.setItem('lists', stringify(listsCreator.lists))
                 }
             })
         }

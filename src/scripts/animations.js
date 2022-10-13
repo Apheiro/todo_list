@@ -28,15 +28,6 @@ class animate {
             delay: 300
         });
 
-        // anime({
-        //     targets: '.addListBtn',
-        //     easing: 'easeInOutExpo',
-        //     opacity: [0, 1],
-        //     scale: [1.1, 1],
-        //     duration: 1000,
-        //     delay: 400
-        // });
-
         anime({
             targets: '.menusBtn',
             easing: 'easeInOutExpo',
@@ -45,15 +36,6 @@ class animate {
             duration: 1000,
             delay: anime.stagger(100, { start: 800 }),
         });
-
-        // anime({
-        //     targets: '.list',
-        //     easing: 'easeInOutExpo',
-        //     opacity: [0, 1],
-        //     scale: [1.2, 1],
-        //     duration: 300,
-        //     delay: anime.stagger(50, { start: 900 }),
-        // });
     }
 
     static addList(dom) {
@@ -332,32 +314,6 @@ class animate {
         });
 
         animation.finished.then(fn);
-    }
-
-    static showTaskOptions(dom) {
-        const animation = anime({
-            targets: dom,
-            easing: 'easeInOutExpo',
-            opacity: [0, 1],
-            scale: [0.8, 1],
-            duration: 400,
-            autoplay: false
-        });
-
-        return animation
-    }
-    static hiddeTaskOptions(dom, fn) {
-        const animation = anime({
-            targets: dom,
-            easing: 'easeInOutExpo',
-            opacity: [1, 0],
-            scale: [1, 0.8],
-            duration: 400,
-            complete: fn,
-            autoplay: false
-        });
-
-        return animation
     }
 }
 

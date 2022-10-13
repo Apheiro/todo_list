@@ -48,6 +48,10 @@
     border-radius: 10px;
 }
 
+html {
+    overflow-x: hidden;
+}
+
 * {
     font-size: 16px;
     font-family: 'verdana', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -56,6 +60,8 @@
     box-sizing: border-box;
     color: var(--text-color);
     border-radius: 10px;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .up {
@@ -544,7 +550,9 @@ body {
 }
 
 .show {
-    display: flex !important;
+    opacity: 1 !important;
+    max-width: 100px !important;
+    transform: scale(1) !important;
 }
 
 .editButton {
@@ -602,7 +610,8 @@ body {
     flex-direction: column;
     gap: 25px;
     padding: 20px 20px 100px 20px;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .noLists {
@@ -734,9 +743,13 @@ body {
 }
 
 .taskBtnsGroup {
+    display: flex;
     margin-left: auto;
     gap: 5px;
-    display: none;
+    transition: opacity 0.20s cubic-bezier(1, 0.01, 0, 1.04), max-width 0.2s cubic-bezier(0, 0.89, 1, 0.15);
+    opacity: 0;
+    max-width: 0px;
+    transform: scale(0);
 }
 
 .btnOfTask {

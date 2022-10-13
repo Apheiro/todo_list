@@ -26,7 +26,8 @@ class tasksCreator {
             if (list.id === listsCreator.listSelected) {
                 list.tasks.push(newTask);
                 list.tasksNumber = list.tasks.length;
-                listsCreator.refreshDataList(list)
+                // listsCreator.refreshDataList(list)
+                listsCreator.refreshDataList()
                 // newTask.listObjReference = list;
                 this.refreshAllTasksValues()
             }
@@ -98,29 +99,20 @@ class tasksCreator {
 
         function start(category) {
             const domElements = userInterface.createTasksDom(title, task.checked, category);
-            // animate.taskIn(domElements[5], domElements[4]);
             const taskIndex = (document.querySelectorAll('.tasks')).length;
             task.domReference = domElements[0];
             task.domReference.setAttribute('data-indextask', taskIndex);
             task.id = taskIndex;
-            const animationIn = animate.showTaskOptions(domElements[0].querySelector('.taskBtnsGroup'))
-            const animationOut = animate.hiddeTaskOptions(domElements[0].querySelector('.taskBtnsGroup'), () => { domElements[0].querySelector('.taskBtnsGroup').classList.remove('show') })
-            domElements[0].addEventListener('mouseenter', () => {
-                domElements[0].querySelector('.taskBtnsGroup').classList.add('show')
-                animationIn.play()
-            });
-            domElements[0].addEventListener('mouseleave', () => { animationOut.play() });
+            domElements[0].addEventListener('mouseenter', () => { domElements[0].querySelector('.taskBtnsGroup').classList.add('show') });
+            domElements[0].addEventListener('mouseleave', () => { domElements[0].querySelector('.taskBtnsGroup').classList.remove('show') });
             domElements[2].addEventListener('click', () => { tasksCreator.showTaskInfo(task) });
             domElements[3].addEventListener('change', () => {
-                tasksCreator.refreshListValues(task, domElements[3])
-                // setTimeout(() => {
-                localStorage.setItem('lists', stringify(listsCreator.lists))
-
-                // }, 0);
+                tasksCreator.refreshListValues(task, domElements[3]);
+                localStorage.setItem('lists', stringify(listsCreator.lists));
             });
             domElements[1].addEventListener('click', () => {
-                tasksCreator.deleteTask(task)
-                tasksCreator.refreshListValues(task, domElements[3])
+                tasksCreator.deleteTask(task);
+                tasksCreator.refreshListValues(task, domElements[3]);
             });
         }
 
@@ -140,19 +132,26 @@ class tasksCreator {
 
     static refreshListValues(task, input) {
         task.checked = input.checked;
-        // const listObj = task.listObjReference
-
         const listObj = this.listSelect()
 
-        function countChecked() {
+        function countChecked(list) {
             let checked = 0
-            listObj.tasks.forEach(task => { if (task.checked === true) { checked++ } })
+            list.tasks.forEach(task => { if (task.checked === true) { checked++ } })
             return checked
         }
-        listObj.taskCompleted = countChecked()
-        listObj.tasksNumber = listObj.tasks.length;
-        listsCreator.refreshDataList(listObj);
+
+        if (listObj.id == 1) {
+            listsCreator.lists.forEach(list => {
+                list.taskCompleted = countChecked(list)
+                list.tasksNumber = list.tasks.length;
+            });
+        } else {
+            listObj.taskCompleted = countChecked(listObj)
+            listObj.tasksNumber = listObj.tasks.length;
+        }
+
         this.refreshAllTasksValues()
+        listsCreator.refreshDataList();
     }
 
     static refreshAllTasksValues() {
@@ -166,28 +165,25 @@ class tasksCreator {
         })
         listsCreator.lists[0].taskCompleted = allTasksCheckedCount;
         listsCreator.lists[0].tasksNumber = allTasksCount;
-        listsCreator.refreshDataList(listsCreator.lists[0]);
+        listsCreator.refreshDataList();
     }
 
     static deleteTask(task) {
         const parent = task.domReference.parentElement
         const listSelected = this.listSelect()
-
-        task.domReference.remove();
-        listSelected.tasks.forEach(taskOfarray => { if (taskOfarray.id === task.id) { listSelected.tasks.splice(listSelected.tasks.indexOf(taskOfarray), 1); } })
-        appLogic.setNewIndex(document.querySelector('#taskPreviews'), 'data-indextask', listSelected.tasks, 'tasks')
-
-        // listsCreator.lists.forEach(list => {
-        //     if (list.id === listsCreator.listSelected) {
-        //         list.tasks.forEach(taskOfarray => { if (taskOfarray.id === task.id) { list.tasks.splice(list.tasks.indexOf(taskOfarray), 1); } })
-        //         appLogic.setNewIndex(document.querySelector('#taskPreviews'), 'data-indextask', list.tasks, 'tasks')
-        //     }
-        // })
-        // task.listObjReference.tasks.forEach(taskOfarray => { if (taskOfarray.id === task.id) { task.listObjReference.tasks.splice(task.listObjReference.tasks.indexOf(taskOfarray), 1); } })
-
-        if (parent.childNodes.length === 0) { parent.parentElement.remove() }
-        localStorage.setItem('lists', stringify(listsCreator.lists))
-
+        if (listSelected.id == 1) {
+            task.domReference.remove();
+            listsCreator.lists.forEach(list => { list.tasks.forEach(taskOfArray => { if (task === taskOfArray) { list.tasks.splice(list.tasks.indexOf(taskOfArray), 1) } }) })
+            appLogic.setNewIndex(document.querySelector('#taskPreviews'), 'data-indextask', listSelected.tasks, 'tasks')
+            if (parent.childNodes.length === 0) { parent.parentElement.remove() }
+            localStorage.setItem('lists', stringify(listsCreator.lists))
+        } else {
+            task.domReference.remove();
+            listSelected.tasks.forEach(taskOfArray => { if (taskOfArray.id === task.id) { listSelected.tasks.splice(listSelected.tasks.indexOf(taskOfArray), 1); } })
+            appLogic.setNewIndex(document.querySelector('#taskPreviews'), 'data-indextask', listSelected.tasks, 'tasks')
+            if (parent.childNodes.length === 0) { parent.parentElement.remove() }
+            localStorage.setItem('lists', stringify(listsCreator.lists))
+        }
     }
 
     static showTaskInfo(task) {
